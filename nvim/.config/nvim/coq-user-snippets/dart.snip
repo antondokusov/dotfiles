@@ -1,0 +1,37 @@
+snippet fre
+  import 'package:freezed_annotation/freezed_annotation.dart';
+
+  part '${TM_FILENAME_BASE}.freezed.dart';
+  part '${TM_FILENAME_BASE}.g.dart';
+
+  @freezed
+  class $1 with _\$$1 {
+    const factory $1($2) = _$0;
+
+    factory $1.fromJson(Map<String, dynamic> json) =>
+        _\$$1FromJson(json);
+  }
+
+snippet bl
+  class $1Bloc extends Cubit<$1State> {
+    $1() : super($0);
+  }
+
+snippet sh
+  SizedBox(height: $0.h)
+
+snippet sw
+  SizedBox(width: $0.w)
+
+snippet gg
+  getIt.get<$0>(),
+
+snippet ana
+  import 'package:gameram/utils/analytics/analytics_event.dart';
+
+  class $1 extends AnalyticsEvent with FirebaseEvent, AmplitudeEvent {
+    $1()
+        : super(
+            name: '$0',
+          );
+  }
