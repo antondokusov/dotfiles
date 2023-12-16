@@ -1,6 +1,4 @@
-local m = {}
-
-m.python = {
+local python = {
 	adapter = {
 		type = 'executable',
 		command = 'python3',
@@ -17,7 +15,7 @@ m.python = {
 }
 
 -- https://github.com/flutter/flutter/blob/master/packages/flutter_tools/lib/src/debug_adapters/README.md#launchattach-arguments
-m.dart = {
+local dart = {
 	adapter = {
 		type = 'executable',
 		command = '.fvm/flutter_sdk/bin/flutter',
@@ -58,4 +56,57 @@ m.dart = {
 	},
 }
 
-return m
+return {
+	{
+		'mfussenegger/nvim-dap',
+		config = function()
+			local dap = require 'dap'
+
+			dap.adapters.python = python.adapter
+			dap.configurations.python = python.configurations
+
+			dap.adapters.dart = dart.adapter
+			dap.configurations.dart = dart.configurations
+
+			dap.defaults.dart.exception_breakpoints = { 'raised' }
+		end,
+	},
+
+	{
+		'rcarriga/nvim-dap-ui',
+		dependencies = {
+			'mfussenegger/nvim-dap',
+		},
+		opts = {
+			controls = { enabled = false },
+			layouts = {
+				{
+					elements = {
+						'repl',
+					},
+					size = 10,
+					position = 'bottom', -- Can be "bottom" or "top"
+				},
+				{
+					-- You can change the order of elements in the sidebar
+					elements = {
+						-- Provide IDs as strings or tables with "id" and "size" keys
+						{
+							id = 'scopes',
+							size = 0.3, -- Can be float or integer > 1
+						},
+						{ id = 'breakpoints', size = 0.3 },
+						{ id = 'stacks', size = 0.3 },
+					},
+					size = 40,
+					position = 'left', -- Can be "left" or "right"
+				},
+			},
+		},
+	},
+
+	{
+		'theHamsta/nvim-dap-virtual-text',
+		opts = {},
+	},
+}
