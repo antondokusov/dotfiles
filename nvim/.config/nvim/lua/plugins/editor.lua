@@ -57,6 +57,13 @@ return {
 						layout = 'vertical',
 					},
 				},
+				keymap = { fzf = { ['ctrl-a'] = 'select-all+accept' } },
+				files = {
+					actions = {
+						['default'] = fzf.actions.file_edit_or_qf,
+						['ctrl-q'] = fzf.actions.file_sel_to_qf,
+					},
+				},
 			}
 
 			vim.keymap.set('n', '<leader>f', fzf.files)
