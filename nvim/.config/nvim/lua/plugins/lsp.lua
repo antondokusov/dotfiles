@@ -175,7 +175,6 @@ return {
 					formatting.stylua,
 					formatting.black.with { extra_args = { '--fast', '--line-length', '120' } },
 					formatting.prettier,
-					diagnostics.flake8.with { extra_args = { '--max-line-length', '120' } },
 					--[[ diagnostics.mypy, ]]
 					diagnostics.clj_kondo,
 					diagnostics.yamllint,
