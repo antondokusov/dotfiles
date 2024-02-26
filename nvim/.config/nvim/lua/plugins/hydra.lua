@@ -60,13 +60,38 @@ return {
 				},
 			}
 
+			local navigation_hydra_left = hydra {
+				config = {
+					color = 'pink',
+					invoke_on_body = true,
+				},
+				name = 'navigation_left',
+				mode = { 'n', 'x' },
+				body = '<leader>a',
+				heads = {
+					{ 's', 'h', { silent = true, nowait = true } },
+					{ 'g', 'l', { silent = true, nowait = true } },
+					{ 'f', 'j', { silent = true } },
+					{ 'd', 'k', { silent = true } },
+					{ 'v', '<C-d>', { silent = true } },
+					{ 'q', '<C-u>', { silent = true } },
+					{ 'w', '<C-o>', { silent = true } },
+					{ 'e', '<C-i>', { silent = true } },
+					{ 'rq', '<CMD>Glance definitions<CR>', { silent = true } },
+					{ 'rrq', '<CMD>Glance references<CR>', { silent = true } },
+					{ 'z', nil, { exit = true, silent = true } },
+				},
+			}
+
 			hydra.spawn = function(head)
 				if head == 'dap-hydra' then dap_hydra:activate() end
 				if head == 'navigation-hydra' then navigation_hydra:activate() end
+				if head == 'navigation-hydra-left' then navigation_hydra_left:activate() end
 			end
 
 			vim.keymap.set('n', '<leader>d', "<cmd>lua require('hydra').spawn('dap-hydra')<cr>")
 			vim.keymap.set('n', '<leader>j', "<cmd>lua require('hydra').spawn('navigation-hydra')<cr>")
+			vim.keymap.set('n', '<leader>a', "<cmd>lua require('hydra').spawn('navigation-hydra-left')<cr>")
 		end,
 	},
 }

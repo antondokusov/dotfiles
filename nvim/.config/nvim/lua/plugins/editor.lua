@@ -119,6 +119,10 @@ return {
 				mappings = {
 					list = {
 						['/'] = require('glance').actions.close,
+						['z'] = require('glance').actions.close,
+						['f'] = require('glance').actions.next,
+						['d'] = require('glance').actions.previous,
+						['w'] = require('glance').actions.jump,
 					},
 				},
 			}
@@ -205,5 +209,25 @@ return {
 		},
 		build = function() require('gitlab.server').build(true) end,
 		opts = {},
+	},
+
+	{
+		'nvim-neotest/neotest',
+		dependencies = {
+			'nvim-lua/plenary.nvim',
+			'nvim-treesitter/nvim-treesitter',
+			'sidlatau/neotest-dart',
+		},
+		config = function()
+			require('neotest').setup {
+				adapters = {
+					require 'neotest-dart' {
+						command = 'fvm flutter',
+						use_lsp = true,
+						custom_test_method_names = { 'blockTest' },
+					},
+				},
+			}
+		end,
 	},
 }
