@@ -64,6 +64,7 @@ return {
 						['ctrl-q'] = fzf.actions.file_sel_to_qf,
 					},
 				},
+				defaults = { formatter = 'path.filename_first' },
 			}
 
 			vim.keymap.set('n', '<leader>f', fzf.files)
