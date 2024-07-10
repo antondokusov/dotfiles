@@ -7,12 +7,11 @@ vim.opt.fileencoding = 'utf-8'
 vim.opt.termguicolors = true
 vim.opt.mouse = 'a'
 vim.opt.clipboard = 'unnamedplus'
-vim.opt.shell = 'fish'
+vim.opt.shell = 'zsh'
 
 vim.opt.backup = false
 vim.opt.writebackup = false
 vim.opt.cmdheight = 1
---[[ vim.opt.completeopt = { 'menu', 'menuone', 'noselect' } ]]
 vim.opt.hlsearch = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
