@@ -3,11 +3,14 @@ return {
 	lazy = false,
 	priority = 1000,
 	config = function()
+    vim.cmd 'set bg=light'
+
 		require('rose-pine').setup {
-			disable_background = true,
+			variant = 'dawn',
+			-- disable_background = true,
 			disable_float_background = true,
 		}
 
-		vim.cmd 'colorscheme rose-pine-moon'
+		vim.cmd 'colorscheme rose-pine-dawn'
 	end,
 }
