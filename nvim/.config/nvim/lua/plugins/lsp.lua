@@ -88,24 +88,6 @@ return {
   },
 
   {
-    'williamboman/mason.nvim',
-    opts = {},
-  },
-
-  {
-    'williamboman/mason-lspconfig.nvim',
-    dependencies = {
-      'williamboman/mason.nvim',
-    },
-    opts = {
-      automatic_installation = true,
-      ensure_installed = {
-        'lua_ls',
-      },
-    },
-  },
-
-  {
     'neovim/nvim-lspconfig',
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
@@ -138,6 +120,29 @@ return {
           },
         },
       }
+
+      require('lspconfig').sourcekit.setup {
+        capabilities = {
+          workspace = {
+            didChangeWatchedFiles = {
+              dynamicRegistration = true,
+            },
+          },
+        },
+      }
+
+      require('lspconfig').ruff.setup {
+        init_options = {
+          settings = {
+            showSyntaxErrors = false,
+            lint = {
+              enable = false,
+            },
+          },
+        },
+      }
+
+      require('lspconfig').pyright.setup {}
 
       require('lspconfig').dartls.setup {
         capabilities = capabilities,
@@ -177,7 +182,6 @@ return {
           formatting.stylua,
           formatting.prettier,
           formatting.shfmt,
-          --[[ diagnostics.mypy, ]]
           diagnostics.clj_kondo,
           diagnostics.yamllint,
         },
