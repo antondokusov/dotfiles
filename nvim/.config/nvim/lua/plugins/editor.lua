@@ -187,7 +187,7 @@ return {
       'MunifTanjim/nui.nvim',
       'nvim-lua/plenary.nvim',
       'sindrets/diffview.nvim',
-      'stevearc/dressing.nvim',   --optional
+      'stevearc/dressing.nvim',      --optional
       'nvim-tree/nvim-web-devicons', --optional
     },
     build = function() require('gitlab.server').build(true) end,
@@ -219,5 +219,14 @@ return {
     'kevinhwang91/nvim-bqf',
     dependencies = { 'junegunn/fzf' },
     ft = 'qf',
+  },
+
+  {
+    'supermaven-inc/supermaven-nvim',
+    config = function()
+      require('supermaven-nvim').setup {
+
+      }
+    end,
   },
 }
