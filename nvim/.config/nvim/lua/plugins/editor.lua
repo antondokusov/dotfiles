@@ -1,7 +1,16 @@
 return {
   {
-    'nvim-treesitter/nvim-treesitter-context',
-    opts = {},
+    'zbirenbaum/copilot.lua',
+    config = function()
+      require("copilot").setup {
+        suggestion = {
+          auto_trigger = true,
+          keymap = {
+            accept = "<TAB>",
+          },
+        }
+      }
+    end,
   },
 
   {
@@ -11,15 +20,6 @@ return {
       require('nvim-treesitter.configs').setup {
         highlight = {
           enable = true,
-        },
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = '<CR>',
-            scope_incremental = '<CR>',
-            node_incremental = '<TAB>',
-            node_decremental = '<S-TAB>',
-          },
         },
       }
     end,
@@ -108,6 +108,15 @@ return {
             ['w'] = require('glance').actions.jump,
           },
         },
+        hooks = {
+          before_open = function(results, open, jump, _)
+            if #results == 1 then
+              jump(results[1]) -- argument is optional
+            else
+              open(results) -- argument is optional
+            end
+          end,
+        },
       }
     end,
   },
@@ -136,13 +145,6 @@ return {
           { 'location', separator = { left = '', right = '  ' } },
         },
       },
-    },
-  },
-
-  {
-    'levouh/tint.nvim',
-    opts = {
-      tint = -55,
     },
   },
 
@@ -182,19 +184,6 @@ return {
   },
 
   {
-    'harrisoncramer/gitlab.nvim',
-    dependencies = {
-      'MunifTanjim/nui.nvim',
-      'nvim-lua/plenary.nvim',
-      'sindrets/diffview.nvim',
-      'stevearc/dressing.nvim',      --optional
-      'nvim-tree/nvim-web-devicons', --optional
-    },
-    build = function() require('gitlab.server').build(true) end,
-    opts = {},
-  },
-
-  {
     'nvim-neotest/neotest',
     dependencies = {
       'nvim-lua/plenary.nvim',
@@ -222,11 +211,9 @@ return {
   },
 
   {
-    'supermaven-inc/supermaven-nvim',
-    config = function()
-      require('supermaven-nvim').setup {
-
-      }
-    end,
+    'sindrets/diffview.nvim',
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+    },
   },
 }

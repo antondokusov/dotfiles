@@ -2,10 +2,6 @@ return {
 	{
 
 		'L3MON4D3/LuaSnip',
-		keys = {
-			{ '<tab>', false, mode = { 'i', 's' } },
-			{ '<s-tab>', false, mode = { 'i', 's' } },
-		},
 		config = function()
 			local luasnip = require 'luasnip'
 			luasnip.add_snippets('dart', {
@@ -69,10 +65,6 @@ return {
 			'L3MON4D3/LuaSnip',
 			'saadparwaiz1/cmp_luasnip',
 		},
-		keys = {
-			{ '<tab>', false, mode = { 'i', 's' } },
-			{ '<s-tab>', false, mode = { 'i', 's' } },
-		},
 		config = function()
 			local cmp = require 'cmp'
 
@@ -97,7 +89,6 @@ return {
 				},
 
 				sources = cmp.config.sources {
-					{ name = 'supermaven' },
 					{ name = 'nvim_lsp' },
 					{ name = 'luasnip' },
 					{ name = 'buffer' },
