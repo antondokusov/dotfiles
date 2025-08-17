@@ -23,9 +23,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
     if client.server_capabilities.documentSymbolProvider then require('nvim-navbuddy').attach(client, buffer) end
 
     local opts = { buffer = buffer }
-    vim.keymap.set('n', 'gd', '<CMD>Glance definitions<CR>', opts)
-    vim.keymap.set('n', 'gr', '<CMD>Glance references<CR>', opts)
-    vim.keymap.set('n', 'gi', '<CMD>Glance implementations<CR>', opts)
+    -- vim.keymap.set('n', 'gd', '<CMD>Glance definitions<CR>', opts)
+    -- vim.keymap.set('n', 'gr', '<CMD>Glance references<CR>', opts)
+    -- vim.keymap.set('n', 'gi', '<CMD>Glance implementations<CR>', opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('n', '<leader>lK', vim.diagnostic.open_float, opts)
     vim.keymap.set('i', '<C-h>', vim.lsp.buf.signature_help, opts)
