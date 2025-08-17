@@ -1,3 +1,47 @@
+function _G.qftf(info)
+	local items
+	local ret = {}
+	if info.quickfix == 1 then
+		items = vim.fn.getqflist({ id = info.id, items = 0 }).items
+	else
+		items = vim.fn.getloclist(info.winid, { id = info.id, items = 0 }).items
+	end
+	local limit = 31
+	local fnameFmt1, fnameFmt2 = '%-' .. limit .. 's', '…%.' .. (limit - 1) .. 's'
+	local validFmt = '%s │%5d:%-3d│%s %s'
+	for i = info.start_idx, info.end_idx do
+		local e = items[i]
+		local fname = ''
+		local str
+		if e.valid == 1 then
+			if e.bufnr > 0 then
+				fname = vim.fn.bufname(e.bufnr)
+				if fname == '' then
+					fname = '[No Name]'
+				else
+					fname = fname:gsub('^' .. vim.env.HOME, '~')
+				end
+				-- char in fname may occur more than 1 width, ignore this issue in order to keep performance
+				if #fname <= limit then
+					fname = fnameFmt1:format(fname)
+				else
+					fname = fnameFmt2:format(fname:sub(1 - limit))
+				end
+			end
+			local lnum = e.lnum > 99999 and -1 or e.lnum
+			local col = e.col > 999 and -1 or e.col
+			-- local qtype = e.type == '' and '' or ' ' .. e.type:sub(1, 1):upper()
+			str = validFmt:format(fname, lnum, col, e.type, e.text)
+		else
+			str = e.text
+		end
+		table.insert(ret, str)
+	end
+	return ret
+end
+
+vim.o.quickfixtextfunc = '{info -> v:lua._G.qftf(info)}'
+
 return {
   {
     'zbirenbaum/copilot.lua',
@@ -37,12 +81,6 @@ return {
           },
         },
         keymap = { fzf = { ['ctrl-a'] = 'select-all+accept' } },
-        files = {
-          actions = {
-            ['default'] = fzf.actions.file_edit_or_qf,
-            ['ctrl-q'] = fzf.actions.file_sel_to_qf,
-          },
-        },
         defaults = { formatter = 'path.filename_first' },
       }
 
@@ -51,7 +89,6 @@ return {
       vim.keymap.set('n', '<leader>f', fzf.files)
       vim.keymap.set('n', '<leader>F', fzf.grep)
       vim.keymap.set('n', '<leader>la', fzf.lsp_code_actions)
-      vim.keymap.set('n', '<leader>lQ', fzf.lsp_workspace_diagnostics)
     end,
   },
 
@@ -210,6 +247,18 @@ return {
     'kevinhwang91/nvim-bqf',
     dependencies = { 'junegunn/fzf' },
     ft = 'qf',
+    config = function()
+      require('bqf').setup {
+        func_map = {
+          fzffilter = '/',
+        },
+        filter = {
+          fzf = {
+            extra_opts = { '--bind', 'ctrl-o:toggle-all', '--delimiter', '│' },
+          },
+        },
+      }
+    end,
   },
 
   {

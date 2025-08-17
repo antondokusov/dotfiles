@@ -37,6 +37,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<leader>lj', vim.diagnostic.goto_next, opts)
     vim.keymap.set('n', '<leader>lk', vim.diagnostic.goto_prev, opts)
     vim.keymap.set('n', '<leader>ll', vim.lsp.codelens.run, opts)
+    vim.keymap.set('n', '>', '<CMD>cnext<CR>', opts)
+    vim.keymap.set('n', '<', '<CMD>cprevious<CR>', opts)
+    vim.keymap.set('n', '<leader>]', vim.diagnostic.setqflist, opts)
     vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, opts)
   end,
 })
