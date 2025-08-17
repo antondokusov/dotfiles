@@ -1,6 +1,6 @@
 return {
 	{
-		'anuvyklack/hydra.nvim',
+		'nvimtools/hydra.nvim',
 		dependencies = {
 			'mfussenegger/nvim-dap',
 			'rcarriga/nvim-dap-ui',
@@ -13,10 +13,6 @@ return {
 				config = {
 					color = 'pink',
 					invoke_on_body = true,
-					hint = {
-						position = 'bottom',
-						border = 'rounded',
-					},
 					on_enter = function() require('dapui').open {} end,
 					on_exit = function() require('dapui').close {} end,
 				},
