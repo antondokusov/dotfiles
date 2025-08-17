@@ -124,8 +124,8 @@ return {
         },
       }
 
-      vim.keymap.set('n', '<leader>gj', gitsigns.next_hunk)
-      vim.keymap.set('n', '<leader>gk', gitsigns.prev_hunk)
+      vim.keymap.set('n', '}', gitsigns.next_hunk)
+      vim.keymap.set('n', '{', gitsigns.prev_hunk)
       vim.keymap.set('n', '<leader>gl', gitsigns.toggle_current_line_blame)
       vim.keymap.set('n', '<leader>gp', gitsigns.preview_hunk)
       vim.keymap.set('n', '<leader>gr', gitsigns.reset_hunk)
