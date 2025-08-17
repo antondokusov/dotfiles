@@ -32,7 +32,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('n', '<leader>lK', vim.diagnostic.open_float, opts)
     vim.keymap.set('i', '<C-h>', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, opts)
+    -- vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, opts)
     vim.keymap.set('n', '<leader>lf', '<cmd> lua vim.lsp.buf.format({async = true})<cr>', opts)
     vim.keymap.set('n', '<leader>lj', vim.diagnostic.goto_next, opts)
     vim.keymap.set('n', '<leader>lk', vim.diagnostic.goto_prev, opts)

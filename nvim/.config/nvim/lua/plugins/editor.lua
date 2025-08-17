@@ -46,6 +46,8 @@ return {
         defaults = { formatter = 'path.filename_first' },
       }
 
+      fzf.register_ui_select()
+
       vim.keymap.set('n', '<leader>f', fzf.files)
       vim.keymap.set('n', '<leader>F', fzf.grep)
       vim.keymap.set('n', '<leader>la', fzf.lsp_code_actions)
