@@ -33,3 +33,6 @@ keymap('x', 'J', ":move '>+0<CR>gv-gv", opts)
 keymap('x', 'K', ":move '<-2<CR>gv-gv", opts)
 
 keymap('v', 'p', '"_dP', opts)
+
+keymap('n', '<C-l>', ':bp<CR>', opts)
+keymap('n', '<C-k>', ':bn<CR>', opts)
