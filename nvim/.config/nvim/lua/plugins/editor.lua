@@ -46,13 +46,13 @@ return {
   {
     'zbirenbaum/copilot.lua',
     config = function()
-      require("copilot").setup {
+      require('copilot').setup {
         suggestion = {
           auto_trigger = true,
           keymap = {
-            accept = "<TAB>",
+            accept = '<TAB>',
           },
-        }
+        },
       }
     end,
   },
@@ -130,33 +130,6 @@ return {
       vim.keymap.set('n', '<leader>gp', gitsigns.preview_hunk)
       vim.keymap.set('n', '<leader>gr', gitsigns.reset_hunk)
       vim.keymap.set('n', '<leader>gR', gitsigns.reset_buffer)
-    end,
-  },
-
-  {
-    'dnlhc/glance.nvim',
-    config = function()
-      local glance = require 'glance'
-      glance.setup {
-        mappings = {
-          list = {
-            ['/'] = require('glance').actions.close,
-            ['z'] = require('glance').actions.close,
-            ['f'] = require('glance').actions.next,
-            ['d'] = require('glance').actions.previous,
-            ['w'] = require('glance').actions.jump,
-          },
-        },
-        hooks = {
-          before_open = function(results, open, jump, _)
-            if #results == 1 then
-              jump(results[1]) -- argument is optional
-            else
-              open(results) -- argument is optional
-            end
-          end,
-        },
-      }
     end,
   },
 
