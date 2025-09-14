@@ -86,6 +86,9 @@ return {
         capabilities = capabilities,
         settings = {
           Lua = {
+            format = {
+              enable = false,
+            },
             diagnostics = {
               -- Get the language server to recognize the `vim` global
               globals = { 'vim' },
