@@ -7,7 +7,6 @@ vim.opt.fileencoding = 'utf-8'
 vim.opt.termguicolors = true
 vim.opt.mouse = 'a'
 vim.opt.clipboard = 'unnamedplus'
-vim.opt.shell = 'zsh'
 
 vim.opt.backup = false
 vim.opt.writebackup = false

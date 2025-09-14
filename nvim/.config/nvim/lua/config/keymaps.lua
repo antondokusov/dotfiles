@@ -2,14 +2,10 @@ local opts = { noremap = true, silent = true }
 
 local keymap = vim.keymap.set
 
- -- https://github.com/kwkarlwang/bufjump.nvim
-local jumpbackward = function(num)
-  vim.cmd([[execute "normal! ]] .. tostring(num) .. [[\<c-o>"]])
-end
+-- https://github.com/kwkarlwang/bufjump.nvim
+local jumpbackward = function(num) vim.cmd([[execute "normal! ]] .. tostring(num) .. [[\<c-o>"]]) end
 
-local jumpforward = function(num)
-  vim.cmd([[execute "normal! ]] .. tostring(num) .. [[\<c-i>"]])
-end
+local jumpforward = function(num) vim.cmd([[execute "normal! ]] .. tostring(num) .. [[\<c-i>"]]) end
 
 local backward = function()
   local getjumplist = vim.fn.getjumplist()
@@ -58,6 +54,13 @@ local forward = function()
   end
 end
 
+local runDartTestUnderCursor = function()
+  local lineNum = vim.api.nvim_win_get_cursor(0)[1]
+  vim.cmd('!fvm flutter test "%?line=' .. lineNum .. '"')
+end
+
+local runDartTestFile = function() vim.cmd '!fvm flutter test %' end
+
 keymap('n', 'sh', '<C-w>h', opts)
 keymap('n', 'sj', '<C-w>j', opts)
 keymap('n', 'sk', '<C-w>k', opts)
@@ -92,3 +95,6 @@ keymap('v', 'p', '"_dP', opts)
 
 keymap('n', '<C-l>', backward, opts)
 keymap('n', '<C-k>', forward, opts)
+
+keymap('n', '<leader>t', runDartTestUnderCursor, opts)
+keymap('n', '<leader>tt', runDartTestFile, opts)
