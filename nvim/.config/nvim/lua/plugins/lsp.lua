@@ -23,19 +23,15 @@ vim.api.nvim_create_autocmd('LspAttach', {
     if client.server_capabilities.documentSymbolProvider then require('nvim-navbuddy').attach(client, buffer) end
 
     local opts = { buffer = buffer }
-    -- vim.keymap.set('n', 'gd', '<CMD>Glance definitions<CR>', opts)
-    -- vim.keymap.set('n', 'gr', '<CMD>Glance references<CR>', opts)
-    -- vim.keymap.set('n', 'gi', '<CMD>Glance implementations<CR>', opts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
     vim.keymap.set('n', 'gk', vim.lsp.buf.type_definition, opts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', '<leader>lK', vim.diagnostic.open_float, opts)
     vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, opts)
     vim.keymap.set('n', '<leader>lf', '<cmd> lua vim.lsp.buf.format({async = true})<cr>', opts)
-    vim.keymap.set('n', ']', vim.diagnostic.goto_next, {buffer = buffer, nowait = true})
-    vim.keymap.set('n', '[', vim.diagnostic.goto_prev, {buffer = buffer, nowait = true})
+    vim.keymap.set('n', ']', function() vim.diagnostic.goto_next { float = false } end, { buffer = buffer, nowait = true })
+    vim.keymap.set('n', '[', function() vim.diagnostic.goto_prev { float = false } end, { buffer = buffer, nowait = true })
     vim.keymap.set('n', '>', '<CMD>cnext<CR>', opts)
     vim.keymap.set('n', '<', '<CMD>cprevious<CR>', opts)
     vim.keymap.set('n', '<leader>]', vim.diagnostic.setqflist, opts)
@@ -43,25 +39,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
-local function setup()
-  local config = {
-    virtual_text = true,
-    update_in_insert = true,
-    underline = true,
-    severity_sort = true,
-    float = {
-      focusable = false,
-      style = 'minimal',
-      border = 'rounded',
-      source = 'always',
-      header = '',
-      prefix = '',
-    },
-  }
-
-  vim.diagnostic.config(config)
-  vim.o.winborder = 'rounded'
-end
+vim.diagnostic.config {
+  virtual_lines = {
+    current_line = true,
+  },
+}
 
 return {
   {
@@ -77,7 +59,6 @@ return {
       'hrsh7th/cmp-nvim-lsp',
       'SmiteshP/nvim-navbuddy',
     },
-    init = setup,
     config = function()
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
