@@ -30,8 +30,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, opts)
     vim.keymap.set('n', '<leader>lf', '<cmd> lua vim.lsp.buf.format({async = true})<cr>', opts)
-    vim.keymap.set('n', ']', function() vim.diagnostic.goto_next { float = false } end, { buffer = buffer, nowait = true })
-    vim.keymap.set('n', '[', function() vim.diagnostic.goto_prev { float = false } end, { buffer = buffer, nowait = true })
+    vim.keymap.set('n', ']', function() vim.diagnostic.jump { count = 1, float = false } end, { buffer = buffer, nowait = true })
+    vim.keymap.set('n', '[', function() vim.diagnostic.jump { count = -1, float = false } end, { buffer = buffer, nowait = true })
     vim.keymap.set('n', '>', '<CMD>cnext<CR>', opts)
     vim.keymap.set('n', '<', '<CMD>cprevious<CR>', opts)
     vim.keymap.set('n', '<leader>]', vim.diagnostic.setqflist, opts)
@@ -76,6 +76,8 @@ return {
             },
             workspace = {
               checkThirdParty = false,
+              -- Make the server aware of Neovim runtime files
+              library = vim.api.nvim_get_runtime_file('lua', true),
             },
             completion = {
               callSnippet = 'Replace',
