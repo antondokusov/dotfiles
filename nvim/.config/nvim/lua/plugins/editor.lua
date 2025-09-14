@@ -196,27 +196,6 @@ return {
   },
 
   {
-    'nvim-neotest/neotest',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-neotest/nvim-nio',
-      'nvim-treesitter/nvim-treesitter',
-      'sidlatau/neotest-dart',
-    },
-    config = function()
-      require('neotest').setup {
-        adapters = {
-          require 'neotest-dart' {
-            command = 'fvm flutter',
-            use_lsp = true,
-            custom_test_method_names = { 'blocTest' },
-          },
-        },
-      }
-    end,
-  },
-
-  {
     'kevinhwang91/nvim-bqf',
     dependencies = { 'junegunn/fzf' },
     ft = 'qf',
