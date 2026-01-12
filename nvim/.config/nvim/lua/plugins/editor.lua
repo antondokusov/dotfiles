@@ -1,60 +1,66 @@
-function _G.qftf(info)
-	local items
-	local ret = {}
-	if info.quickfix == 1 then
-		items = vim.fn.getqflist({ id = info.id, items = 0 }).items
-	else
-		items = vim.fn.getloclist(info.winid, { id = info.id, items = 0 }).items
-	end
-	local limit = 31
-	local fnameFmt1, fnameFmt2 = '%-' .. limit .. 's', '…%.' .. (limit - 1) .. 's'
-	local validFmt = '%s │%5d:%-3d│%s %s'
-	for i = info.start_idx, info.end_idx do
-		local e = items[i]
-		local fname = ''
-		local str
-		if e.valid == 1 then
-			if e.bufnr > 0 then
-				fname = vim.fn.bufname(e.bufnr)
-				if fname == '' then
-					fname = '[No Name]'
-				else
-					fname = fname:gsub('^' .. vim.env.HOME, '~')
-				end
-				-- char in fname may occur more than 1 width, ignore this issue in order to keep performance
-				if #fname <= limit then
-					fname = fnameFmt1:format(fname)
-				else
-					fname = fnameFmt2:format(fname:sub(1 - limit))
-				end
-			end
-			local lnum = e.lnum > 99999 and -1 or e.lnum
-			local col = e.col > 999 and -1 or e.col
-			-- local qtype = e.type == '' and '' or ' ' .. e.type:sub(1, 1):upper()
-			str = validFmt:format(fname, lnum, col, e.type, e.text)
-		else
-			str = e.text
-		end
-		table.insert(ret, str)
-	end
-	return ret
-end
-
-vim.o.quickfixtextfunc = '{info -> v:lua._G.qftf(info)}'
-
 return {
   {
-    'zbirenbaum/copilot.lua',
-    config = function()
-      require('copilot').setup {
-        suggestion = {
-          auto_trigger = true,
-          keymap = {
-            accept = '<TAB>',
-          },
+    'folke/sidekick.nvim',
+    lazy = false,
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+    },
+    opts = {
+      nes = {
+        enabled = true,
+      },
+      -- add any options here
+      cli = {
+        mux = {
+          backend = "zellij",
+          enabled = true,
         },
-      }
-    end,
+      },
+    },
+    keys = {
+      {
+        '<leader>aa',
+        function() require('sidekick.cli').toggle() end,
+        desc = 'Sidekick Toggle CLI',
+      },
+      {
+        '<leader>as',
+        function() require('sidekick.cli').select() end,
+        -- Or to select only installed tools:
+        -- require("sidekick.cli").select({ filter = { installed = true } })
+        desc = 'Select CLI',
+      },
+      {
+        '<leader>at',
+        function() require('sidekick.cli').send { msg = '{this}' } end,
+        mode = { 'x', 'n' },
+        desc = 'Send This',
+      },
+      {
+        '<leader>av',
+        function() require('sidekick.cli').send { msg = '{selection}' } end,
+        mode = { 'x' },
+        desc = 'Send Visual Selection',
+      },
+      {
+        '<leader>ap',
+        function() require('sidekick.cli').prompt() end,
+        mode = { 'n', 'x' },
+        desc = 'Sidekick Select Prompt',
+      },
+      {
+        '<c-.>',
+        function() require('sidekick.cli').focus() end,
+        mode = { 'n', 'x', 'i', 't' },
+        desc = 'Sidekick Switch Focus',
+      },
+      -- Example of a keybinding to open Claude directly
+      {
+        '<leader>ac',
+        function() require('sidekick.cli').toggle { name = 'claude', focus = true } end,
+        desc = 'Sidekick Toggle Claude',
+      },
+    },
   },
 
   {
@@ -67,6 +73,11 @@ return {
         },
       }
     end,
+  },
+
+  {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    branch = 'main',
   },
 
   {
@@ -86,7 +97,6 @@ return {
 
       fzf.register_ui_select()
 
-      vim.keymap.set('n', '<leader>f', fzf.files)
       vim.keymap.set('n', '<leader>F', fzf.grep)
       vim.keymap.set('n', '<leader>la', fzf.lsp_code_actions)
     end,
@@ -95,7 +105,6 @@ return {
   {
     'SmiteshP/nvim-navbuddy',
     dependencies = {
-      'neovim/nvim-lspconfig',
       'SmiteshP/nvim-navic',
       'MunifTanjim/nui.nvim',
     },
@@ -135,6 +144,7 @@ return {
 
   {
     'nvim-lualine/lualine.nvim',
+    -- enabled = false,
     opts = {
       options = {
         disabled_filetypes = { 'NvimTree' },
@@ -199,6 +209,7 @@ return {
     'kevinhwang91/nvim-bqf',
     dependencies = { 'junegunn/fzf' },
     ft = 'qf',
+    enabled = false,
     config = function()
       require('bqf').setup {
         func_map = {
