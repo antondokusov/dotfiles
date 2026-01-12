@@ -4,7 +4,6 @@ local keymap = vim.keymap.set
 
 -- https://github.com/kwkarlwang/bufjump.nvim
 local jumpbackward = function(num) vim.cmd([[execute "normal! ]] .. tostring(num) .. [[\<c-o>"]]) end
-
 local jumpforward = function(num) vim.cmd([[execute "normal! ]] .. tostring(num) .. [[\<c-i>"]]) end
 
 local backward = function()
@@ -61,6 +60,25 @@ end
 
 local runDartTestFile = function() vim.cmd '!fvm flutter test %' end
 
+local television = function()
+  local result_pipe = "/tmp/nvim_zellij_picker"
+
+  os.execute("rm -f " .. result_pipe)
+  os.execute("mkfifo " .. result_pipe)
+
+  vim.fn.jobstart("head -n 1 " .. result_pipe, {
+    on_stdout = function(_, data)
+      local file = data[1]
+      if file and file ~= "" then
+        vim.cmd("find " .. file)
+      end
+      os.execute("rm -f " .. result_pipe)
+    end,
+  })
+
+  os.execute('zellij action new-pane -f -c -- sh -c "tv files --no-preview --no-status-bar >> ' .. result_pipe .. '"')
+end
+
 keymap('n', 'sh', '<C-w>h', opts)
 keymap('n', 'sj', '<C-w>j', opts)
 keymap('n', 'sk', '<C-w>k', opts)
@@ -98,3 +116,5 @@ keymap('n', '<C-k>', forward, opts)
 
 keymap('n', '<leader>t', runDartTestUnderCursor, opts)
 keymap('n', '<leader>tt', runDartTestFile, opts)
+
+keymap('n', '<leader>f', television, opts)
