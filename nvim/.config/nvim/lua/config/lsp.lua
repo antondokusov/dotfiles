@@ -1,6 +1,15 @@
+vim.lsp.enable { 'copilot', 'lua_ls', 'typescript', 'dart_ls', 'nushell' }
+
+vim.diagnostic.config {
+  virtual_text = true,
+  severity_sort = true,
+  update_in_insert = true,
+}
+
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    local clientId = args.data.client_id
+    local client = vim.lsp.get_client_by_id(clientId)
     local buffer = args.buf
 
     -- if client and client.server_capabilities.documentHighlightProvider then
@@ -13,9 +22,47 @@ vim.api.nvim_create_autocmd('LspAttach', {
     --   })
     -- end
 
-    if client and client.server_capabilities.documentSymbolProvider then
+    if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentSymbol) then
       require('nvim-navbuddy').attach(client, buffer)
     end
+
+    ---Is the completion menu open?
+    local function pumvisible()
+      return tonumber(vim.fn.pumvisible()) ~= 0
+    end
+
+    if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion) then
+      vim.lsp.inline_completion.enable(true)
+    end
+
+    if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_completion) then
+      vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'nosort', 'popup' }
+      vim.lsp.completion.enable(true, client.id, buffer, { autotrigger = false })
+
+      vim.keymap.set('i', '<C-n>', function()
+        if next(vim.lsp.get_clients { bufnr = 0 }) then
+          vim.lsp.completion.get()
+        else
+          return '<C-n>'
+        end
+      end, { expr = true })
+    end
+
+    vim.keymap.set('i', '<C-p>', '<C-x><C-n>', { desc = 'Buffer completions' })
+
+    vim.keymap.set({ 'i', 'n' }, '<Tab>', function()
+      local nes = require 'sidekick'
+
+      if nes.nes_jump_or_apply() then
+        return ''
+      elseif vim.lsp.inline_completion.get() then
+        return ''
+      elseif pumvisible() then
+        return '<C-y>'
+      else
+        return '<Tab>'
+      end
+    end, { expr = true, silent = true })
 
     local opts = { buffer = buffer }
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
@@ -25,21 +72,15 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, opts)
     vim.keymap.set('n', '<leader>lf', function() vim.lsp.buf.format { async = true } end, opts)
-    vim.keymap.set('n', ']', function() vim.diagnostic.jump { count = 1, float = true } end, { buffer = buffer, nowait = true })
-    vim.keymap.set('n', '[', function() vim.diagnostic.jump { count = -1, float = true } end, { buffer = buffer, nowait = true })
+    vim.keymap.set('n', ']', function() vim.diagnostic.jump { count = 1, float = true } end,
+      { buffer = buffer, nowait = true })
+    vim.keymap.set('n', '[', function() vim.diagnostic.jump { count = -1, float = true } end,
+      { buffer = buffer, nowait = true })
     vim.keymap.set('n', '>', '<CMD>cnext<CR>', opts)
     vim.keymap.set('n', '<', '<CMD>cprevious<CR>', opts)
-    vim.keymap.set('n', '<leader>]', vim.diagnostic.setqflist, opts)
+    vim.keymap.set('n', '<leader>[', vim.diagnostic.setqflist, opts)
+    vim.keymap.set('n', '<leader>]', function() vim.diagnostic.setqflist { severity = vim.diagnostic.severity.ERROR } end,
+      opts)
     vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, opts)
   end,
 })
-
-vim.diagnostic.config {
-  virtual_text = true,
-  severity_sort = true,
-  update_in_insert = true,
-}
-
-vim.lsp.enable 'lua_ls'
-vim.lsp.enable 'dart_ls'
-vim.lsp.enable 'typescript'
