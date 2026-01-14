@@ -72,6 +72,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, opts)
     vim.keymap.set('n', '<leader>lf', function() vim.lsp.buf.format { async = true } end, opts)
+    vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, opts)
     vim.keymap.set('n', ']', function() vim.diagnostic.jump { count = 1, float = true } end,
       { buffer = buffer, nowait = true })
     vim.keymap.set('n', '[', function() vim.diagnostic.jump { count = -1, float = true } end,
