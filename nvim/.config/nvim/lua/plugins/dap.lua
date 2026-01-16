@@ -18,48 +18,30 @@ local python = {
 local dart = {
   adapter = {
     type = 'executable',
-    command = '.fvm/flutter_sdk/bin/flutter',
-    args = { 'debug_adapter' },
+    command = 'fvm',
+    args = { 'flutter', 'debug_adapter' },
   },
-  configurations = {
-    {
-      type = 'dart',
-      request = 'launch',
-      name = 'Launch dev',
-      program = 'lib/main_development.dart',
-      cwd = '${workspaceFolder}',
-      -- toolArgs = { '--flavor', 'development', '-d', 'NX563J' },
-      -- toolArgs = { '--flavor', 'development', '-d', 'iPhone 15' },
-      toolArgs = { '--flavor', 'development', '-d', 'GM1900' },
-      -- toolArgs = { '--flavor', 'development', '-d', 'emulator-5554' },
-      -- toolArgs = { '--flavor', 'development' },
-      -- console = 'terminal',
-    },
-    {
-      type = 'dart',
-      request = 'launch',
-      name = 'Launch prod',
-      program = 'lib/main_production.dart',
-      cwd = '${workspaceFolder}',
-      toolArgs = { '--flavor', 'production', '-d', 'GM1900' },
-      -- toolArgs = { '--flavor', 'production' },
-    },
-    {
-      type = 'dart',
-      request = 'attach',
-      name = 'Attach dev',
-      program = 'lib/main_development.dart',
-      toolArgs = { '-d', 'GM1900' },
-      cwd = '${workspaceFolder}',
-    },
-    {
-      type = 'dart',
-      request = 'attach',
-      name = 'Attach production',
-      program = 'lib/main_production.dart',
-      cwd = '${workspaceFolder}',
-    },
-  },
+  configurations_provider = function()
+    local device = require('config.flutter_device').current_flutter_device
+    return {
+      {
+        type = 'dart',
+        request = 'launch',
+        name = 'Launch dev',
+        program = 'lib/main_development.dart',
+        cwd = '${workspaceFolder}',
+        toolArgs = { '--flavor', 'development', '-d', device, '--dart-define-from-file=api_keys.json' },
+      },
+      {
+        type = 'dart',
+        request = 'launch',
+        name = 'Launch prod',
+        program = 'lib/main_production.dart',
+        cwd = '${workspaceFolder}',
+        toolArgs = { '--flavor', 'production', '-d', device, '--dart-define-from-file=api_keys.json' },
+      },
+    }
+  end,
 }
 
 return {
@@ -72,9 +54,10 @@ return {
       dap.configurations.python = python.configurations
 
       dap.adapters.dart = dart.adapter
-      dap.configurations.dart = dart.configurations
+      dap.providers.configs['dart'] = dart.configurations_provider
 
       dap.defaults.dart.exception_breakpoints = { 'raised' }
+      -- dap.defaults.dart.exception_breakpoints = { 'uncaught' }
     end,
   },
 
