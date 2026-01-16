@@ -5,4 +5,4 @@ require 'config.lsp'
 
 require('config.util').setup_ui_select()
 
-require('config.flutter_daemon').start()
+require('config.flutter_device').start_daemon_and_poll_devices()

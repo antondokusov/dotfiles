@@ -2,19 +2,33 @@ local M = {}
 
 M.current_flutter_device = 'GM1900'
 
-function M.select_flutter_device()
+function M.start_daemon_and_poll_devices()
   local daemon = require 'config.flutter_daemon'
+
   if not daemon.is_running() then
     local started = daemon.start()
     if not started then
       vim.notify('Failed to start Flutter daemon', vim.log.levels.ERROR)
       return
     end
+
+    vim.defer_fn(function()
+      daemon.send_command('device.enable')
+    end, 100)
   end
+end
+
+function M.select_flutter_device()
+  local daemon = require 'config.flutter_daemon'
 
   daemon.send_command('device.getDevices', nil, function(devices, error)
     if error then
       vim.notify('Error fetching devices: ' .. error, vim.log.levels.ERROR)
+      return
+    end
+
+    if not devices or #devices == 0 then
+      vim.notify('No Flutter devices found', vim.log.levels.WARN)
       return
     end
 
