@@ -18,25 +18,19 @@ function M.select_flutter_device()
       return
     end
 
-    local device_items = {}
-    for _, device in ipairs(devices) do
-      table.insert(device_items, device.name .. ' (' .. device.platform .. ')')
-    end
-
-    require('config.util').television_select(device_items, function(selected)
+    vim.ui.select(devices, {
+      prompt = 'Select Flutter device:',
+      format_item = function(device)
+        return device.name .. ' (' .. device.platform .. ')'
+      end,
+    }, function(selected)
       if selected then
-        for _, device in ipairs(devices) do
-          if selected == device.name .. ' (' .. device.platform .. ')' then
-            M.current_flutter_device = device.id
-            vim.notify('Selected Flutter device: ' .. device.name, vim.log.levels.INFO)
-            return
-          end
-        end
+        M.current_flutter_device = selected.id
+        vim.notify('Selected Flutter device: ' .. selected.name, vim.log.levels.INFO)
       else
         vim.notify('No Flutter device selected', vim.log.levels.WARN)
       end
-    end
-    )
+    end)
   end)
 end
 
