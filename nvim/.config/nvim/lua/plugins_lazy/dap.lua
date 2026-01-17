@@ -22,7 +22,7 @@ local dart = {
     args = { 'flutter', 'debug_adapter' },
   },
   configurations_provider = function()
-    local device = require('config.flutter_device').current_flutter_device
+    local device = require('util.flutter_util').current_flutter_device
     return {
       {
         type = 'dart',

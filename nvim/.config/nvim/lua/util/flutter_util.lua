@@ -3,7 +3,7 @@ local M = {}
 M.current_flutter_device = 'GM1900'
 
 function M.start_daemon_and_poll_devices()
-  local daemon = require 'config.flutter_daemon'
+  local daemon = require 'util.flutter_daemon'
 
   if not daemon.is_running() then
     local started = daemon.start()
@@ -19,7 +19,7 @@ function M.start_daemon_and_poll_devices()
 end
 
 function M.select_flutter_device()
-  local daemon = require 'config.flutter_daemon'
+  local daemon = require 'util.flutter_daemon'
 
   daemon.send_command('device.getDevices', nil, function(devices, error)
     if error then
