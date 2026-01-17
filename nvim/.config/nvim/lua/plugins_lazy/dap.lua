@@ -62,40 +62,6 @@ return {
   },
 
   {
-    'rcarriga/nvim-dap-ui',
-    dependencies = {
-      'mfussenegger/nvim-dap',
-      'nvim-neotest/nvim-nio',
-    },
-    opts = {
-      controls = { enabled = false },
-      layouts = {
-        {
-          elements = {
-            'repl',
-          },
-          size = 10,
-          position = 'bottom', -- Can be "bottom" or "top"
-        },
-        {
-          -- You can change the order of elements in the sidebar
-          elements = {
-            -- Provide IDs as strings or tables with "id" and "size" keys
-            {
-              id = 'scopes',
-              size = 0.3, -- Can be float or integer > 1
-            },
-            { id = 'breakpoints', size = 0.3 },
-            { id = 'stacks',      size = 0.3 },
-          },
-          size = 40,
-          position = 'left', -- Can be "left" or "right"
-        },
-      },
-    },
-  },
-
-  {
     'theHamsta/nvim-dap-virtual-text',
     opts = {},
   },

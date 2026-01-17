@@ -1,0 +1,8 @@
+{
+  "plugins": {
+    "nvim-dap-view": {
+      "rev": "b1eadfadf7f161a707a3ebc100fb3989d06eaa29",
+      "src": "https://github.com/igorlfs/nvim-dap-view.git"
+    }
+  }
+}
