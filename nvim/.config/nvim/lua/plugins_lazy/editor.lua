@@ -8,6 +8,9 @@ return {
     opts = {
       nes = {
         enabled = true,
+        diff = {
+          inline = "chars",
+        },
       },
       -- add any options here
       cli = {

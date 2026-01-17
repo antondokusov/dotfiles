@@ -7,6 +7,9 @@ return {
     outline = false,
     flutterOutline = false,
   },
+  on_attach = function(client, bufnr)
+    client.server_capabilities.semanticTokensProvider = nil
+  end,
   settings = {
     dart = {
       lineLength = 120,
