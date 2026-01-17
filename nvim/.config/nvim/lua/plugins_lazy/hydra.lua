@@ -33,7 +33,7 @@ return {
           { '.', function() require('dap-view').navigate { count = 1, wrap = true } end,  { silent = true } },
           { ',', function() require('dap-view').navigate { count = -1, wrap = true } end, { silent = true } },
           { 'q', ':DapVirtualTextForceRefresh<CR>',                                       { exit = true, nowait = true } },
-          { 'd', require('config.flutter_device').select_flutter_device,                  { silent = false } },
+          { 'd', require('util.flutter_util').select_flutter_device,                      { silent = false } },
         },
       }
 

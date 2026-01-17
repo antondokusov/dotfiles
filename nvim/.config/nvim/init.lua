@@ -5,6 +5,6 @@ require 'config.lsp'
 
 require 'plugins.nvim-dap-view'
 
-require('config.util').setup_ui_select()
+require('util.television').setup_ui_select()
 
-require('config.flutter_device').start_daemon_and_poll_devices()
+require('util.flutter_util').start_daemon_and_poll_devices()

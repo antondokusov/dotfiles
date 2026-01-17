@@ -1,10 +1,29 @@
 local M = {}
 
+M.find = function()
+  local result_pipe = "/tmp/nvim_zellij_picker"
+
+  os.execute("rm -f " .. result_pipe)
+  os.execute("mkfifo " .. result_pipe)
+
+  vim.fn.jobstart("head -n 1 " .. result_pipe, {
+    on_stdout = function(_, data)
+      local file = data[1]
+      if file and file ~= "" then
+        vim.cmd("find " .. file)
+      end
+      os.execute("rm -f " .. result_pipe)
+    end,
+  })
+
+  os.execute('zellij action new-pane -f -c -- sh -c "tv files --no-preview --no-status-bar >> ' .. result_pipe .. '"')
+end
+
 --- Opens television in a zellij pane with a list of options and returns the selected one
 --- @param options table A list of strings to choose from
 --- @param callback function A callback function that receives the selected string
 --- @return nil
-M.television_select = function(options, callback)
+M.select = function(options, callback)
   if not options or #options == 0 then
     vim.notify("No options provided to television_select", vim.log.levels.WARN)
     return
@@ -60,7 +79,7 @@ M.setup_ui_select = function()
       end
     end
 
-    M.television_select(formatted_items, function(selected)
+    M.select(formatted_items, function(selected)
       local idx = nil
       for i, formatted in ipairs(formatted_items) do
         if formatted == selected then
