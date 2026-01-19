@@ -27,7 +27,7 @@ local dart = {
       {
         type = 'dart',
         request = 'launch',
-        name = 'Launch dev',
+        name = 'Development (' .. device .. ')',
         program = 'lib/main_development.dart',
         cwd = '${workspaceFolder}',
         toolArgs = { '--flavor', 'development', '-d', device, '--dart-define-from-file=api_keys.json' },
@@ -35,7 +35,7 @@ local dart = {
       {
         type = 'dart',
         request = 'launch',
-        name = 'Launch prod',
+        name = 'Production (' .. device .. ')',
         program = 'lib/main_production.dart',
         cwd = '${workspaceFolder}',
         toolArgs = { '--flavor', 'production', '-d', device, '--dart-define-from-file=api_keys.json' },
