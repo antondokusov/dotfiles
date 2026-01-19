@@ -3,6 +3,7 @@ require 'config.keymaps'
 require 'config.plugins'
 require 'config.lsp'
 
+require 'plugins.nvim-dap'
 require 'plugins.nvim-dap-view'
 
 require('util.television').setup_ui_select()

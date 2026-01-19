@@ -32,7 +32,7 @@ return {
           { 'w', function() require('dap-view').add_expr() end,                           { silent = true } },
           { '.', function() require('dap-view').navigate { count = 1, wrap = true } end,  { silent = true } },
           { ',', function() require('dap-view').navigate { count = -1, wrap = true } end, { silent = true } },
-          { 'q', ':DapVirtualTextForceRefresh<CR>',                                       { exit = true, nowait = true } },
+          { 'q', function() end,                                                          { exit = true, nowait = true } },
           { 'd', require('util.flutter_util').select_flutter_device,                      { silent = false } },
         },
       }

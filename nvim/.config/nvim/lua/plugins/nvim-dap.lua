@@ -1,3 +1,5 @@
+vim.pack.add({ 'https://github.com/mfussenegger/nvim-dap.git' })
+
 local python = {
   adapter = {
     type = 'executable',
@@ -44,25 +46,10 @@ local dart = {
   end,
 }
 
-return {
-  {
-    'mfussenegger/nvim-dap',
-    config = function()
-      local dap = require 'dap'
+local dap = require 'dap'
 
-      dap.adapters.python = python.adapter
-      dap.configurations.python = python.configurations
+dap.adapters.python = python.adapter
+dap.configurations.python = python.configurations
 
-      dap.adapters.dart = dart.adapter
-      dap.providers.configs['dart'] = dart.configurations_provider
-
-      dap.defaults.dart.exception_breakpoints = { 'raised' }
-      -- dap.defaults.dart.exception_breakpoints = { 'uncaught' }
-    end,
-  },
-
-  {
-    'theHamsta/nvim-dap-virtual-text',
-    opts = {},
-  },
-}
+dap.adapters.dart = dart.adapter
+dap.providers.configs['dart'] = dart.configurations_provider
