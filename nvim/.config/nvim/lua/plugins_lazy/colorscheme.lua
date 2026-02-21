@@ -1,6 +1,6 @@
 return {
 	'rose-pine/neovim',
-	dir = '~/Documents/rose-pine/',
+	dir = '~/.config/theme1/',
 	lazy = false,
 	priority = 1000,
 	config = function()
