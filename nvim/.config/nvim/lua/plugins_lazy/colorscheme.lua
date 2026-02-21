@@ -8,7 +8,6 @@ return {
 
 		require('rose-pine').setup {
 			variant = 'dawn',
-			disable_float_background = true,
 		}
 	end,
 }

@@ -15,8 +15,7 @@ local function set_highlights()
 		fg = fg or groups.border
 		return {
 			fg = fg,
-			bg = (config.options.extend_background_behind_borders and not styles.transparency) and palette.surface
-				or "NONE",
+			bg = config.options.extend_background_behind_borders and palette.surface or "NONE",
 		}
 	end
 
@@ -52,8 +51,8 @@ local function set_highlights()
 		MoreMsg = { fg = palette.iris },
 		NonText = { fg = palette.muted },
 		Normal = { fg = palette.text, bg = palette.base },
-		NormalFloat = { bg = groups.panel },
-		NormalNC = { fg = palette.text, bg = config.options.dim_inactive_windows and palette._nc or palette.base },
+		NormalFloat = { bg = "NONE" },
+		NormalNC = { fg = palette.text, bg = palette.base },
 		NvimInternalError = { link = "ErrorMsg" },
 		Pmenu = { fg = palette.subtle, bg = groups.panel },
 		PmenuExtra = { fg = palette.muted, bg = groups.panel },
@@ -173,7 +172,7 @@ local function set_highlights()
 		["@diff.plus"] = { fg = palette.text, bg = groups.git_add, blend = 20 },
 		["@diff.minus"] = { fg = palette.text, bg = groups.git_delete, blend = 20 },
 		["@diff.delta"] = { fg = palette.text, bg = groups.git_change, blend = 20 },
-		--- Plugins
+
 		-- lewis6991/gitsigns.nvim
 		GitSignsAdd = { fg = groups.git_add, bg = "NONE" },
 		GitSignsChange = { fg = groups.git_change, bg = "NONE" },
@@ -212,47 +211,15 @@ local function set_highlights()
 		SidekickDiffDelete = { fg = palette.text, bg = groups.git_delete, blend = 20 },
 		SidekickDiffAdd = { fg = palette.text, bg = groups.git_add, blend = 20 },
 	}
-	local transparency_highlights = {
-		DiagnosticVirtualTextError = { fg = groups.error },
-		DiagnosticVirtualTextHint = { fg = groups.hint },
-		DiagnosticVirtualTextInfo = { fg = groups.info },
-		DiagnosticVirtualTextOk = { fg = groups.ok },
-		DiagnosticVirtualTextWarn = { fg = groups.warn },
-
-		FloatBorder = { fg = palette.muted, bg = "NONE" },
-		FloatTitle = { fg = palette.foam, bg = "NONE", bold = styles.bold },
-		Folded = { fg = palette.text, bg = "NONE" },
-		NormalFloat = { bg = "NONE" },
-		Normal = { fg = palette.text, bg = "NONE" },
-		NormalNC = { fg = palette.text, bg = config.options.dim_inactive_windows and palette._nc or "NONE" },
-		Pmenu = { fg = palette.subtle, bg = "NONE" },
-		PmenuKind = { fg = palette.foam, bg = "NONE" },
-		SignColumn = { fg = palette.text, bg = "NONE" },
-		StatusLine = { fg = palette.subtle, bg = "NONE" },
-		StatusLineNC = { fg = palette.muted, bg = "NONE" },
-		TabLine = { bg = "NONE", fg = palette.subtle },
-		TabLineFill = { bg = "NONE" },
-		TabLineSel = { fg = palette.text, bg = "NONE", bold = styles.bold },
-
-		["@markup.raw.markdown_inline"] = { fg = palette.gold },
-	}
 
 	for group, highlight in pairs(default_highlights) do
 		highlights[group] = highlight
 	end
-	if styles.transparency then
-		for group, highlight in pairs(transparency_highlights) do
-			highlights[group] = highlight
-		end
-	end
 
-	-- Reconcile highlights with config
+	-- Apply user highlight overrides
 	if config.options.highlight_groups ~= nil and next(config.options.highlight_groups) ~= nil then
 		for group, highlight in pairs(config.options.highlight_groups) do
 			local existing = highlights[group] or {}
-			-- Traverse link due to
-			-- "If link is used in combination with other attributes; only the link will take effect"
-			-- see: https://neovim.io/doc/user/api.html#nvim_set_hl()
 			while existing.link ~= nil do
 				existing = highlights[existing.link] or {}
 			end
@@ -279,10 +246,6 @@ local function set_highlights()
 	end
 
 	for group, highlight in pairs(highlights) do
-		if config.options.before_highlight ~= nil then
-			config.options.before_highlight(group, highlight, palette)
-		end
-
 		if highlight.blend ~= nil and (highlight.blend >= 0 and highlight.blend <= 100) and highlight.bg ~= nil then
 			highlight.bg = utilities.blend(highlight.bg, highlight.blend_on or palette.base, highlight.blend / 100)
 		end
@@ -312,7 +275,6 @@ local function set_highlights()
 		vim.g.terminal_color_7 = palette.text -- white
 		vim.g.terminal_color_15 = palette.text -- bright white
 
-		-- Support StatusLineTerm & StatusLineTermNC from vim
 		vim.cmd([[
 		augroup rose-pine
 			autocmd!
@@ -325,7 +287,7 @@ local function set_highlights()
 	end
 end
 
----@param options Options
+---@param options table|nil
 function M.setup(options)
 	config.extend_options(options or {})
 

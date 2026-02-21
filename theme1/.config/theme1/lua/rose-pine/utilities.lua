@@ -22,11 +22,6 @@ function utilities.parse_color(color)
 		return color_cache[color]
 	end
 
-	if color == nil then
-		print("Invalid color: " .. color)
-		return nil
-	end
-
 	color = color:lower()
 
 	if not color:find("#") and color ~= "NONE" then
