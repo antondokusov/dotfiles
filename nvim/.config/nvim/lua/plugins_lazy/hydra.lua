@@ -37,34 +37,12 @@ return {
         },
       }
 
-      local navigation_hydra = hydra {
-        config = {
-          color = 'pink',
-          invoke_on_body = true,
-        },
-        name = 'navigation',
-        mode = { 'n', 'x' },
-        body = '<leader>j',
-        heads = {
-          { 'h',   'b',                           { silent = true } },
-          { 'l',   'w',                           { silent = true } },
-          { 'n',   '<C-d>',                       { silent = true } },
-          { 'p',   '<C-u>',                       { silent = true } },
-          { 'o',   '<C-o>',                       { silent = true } },
-          { 'i',   '<C-i>',                       { silent = true } },
-          { 'up',  '<CMD>Glance definitions<CR>', { silent = true } },
-          { 'uup', '<CMD>Glance references<CR>',  { silent = true } },
-          { '/',   nil,                           { exit = true, silent = true } },
-        },
-      }
 
       hydra.spawn = function(head)
         if head == 'dap-hydra' then dap_hydra:activate() end
-        if head == 'navigation-hydra' then navigation_hydra:activate() end
       end
 
       vim.keymap.set('n', '<leader>d', "<cmd>lua require('hydra').spawn('dap-hydra')<cr>")
-      vim.keymap.set('n', '<leader>j', "<cmd>lua require('hydra').spawn('navigation-hydra')<cr>")
     end,
   },
 }
