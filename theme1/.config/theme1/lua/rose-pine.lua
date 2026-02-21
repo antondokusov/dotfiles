@@ -124,46 +124,12 @@ local function set_highlights()
 		DiagnosticVirtualTextOk = { fg = groups.ok, bg = groups.ok, blend = 10 },
 		DiagnosticVirtualTextWarn = { fg = groups.warn, bg = groups.warn, blend = 10 },
 
-		Boolean = {},
-		Character = {},
-		Comment = {},
-		Conditional = {},
-		Constant = {},
-		Debug = {},
-		Define = {},
-		Delimiter = {},
-		Error = {},
-		Exception = {},
-		Float = {},
-		Function = {},
-		Identifier = {},
-		Include = {},
-		Keyword = {},
-		Label = {},
 		LspCodeLens = {},
 		LspCodeLensSeparator = {},
 		LspInlayHint = {},
 		LspReferenceRead = { fg = palette.text, bg = palette.gold, blend = 20 },
 		LspReferenceText = { fg = palette.text, bg = palette.gold, blend = 20 },
 		LspReferenceWrite = { fg = palette.text, bg = palette.gold, blend = 20 },
-		Macro = {},
-		Number = {},
-		Operator = {},
-		PreCondit = {},
-		PreProc = {},
-		Repeat = {},
-		Special = {},
-		SpecialChar = {},
-		SpecialComment = {},
-		Statement = {},
-		StorageClass = {},
-		String = {},
-		Structure = {},
-		Tag = {},
-		Todo = {},
-		Type = {},
-		TypeDef = {},
-		Underlined = {},
 
 		healthError = { fg = groups.error },
 		healthSuccess = { fg = groups.info },
@@ -214,6 +180,31 @@ local function set_highlights()
 
 	for group, highlight in pairs(default_highlights) do
 		highlights[group] = highlight
+	end
+
+	-- Clear all syntax groups to achieve monochrome text.
+	-- nvim_set_hl(0, group, {}) marks a group as "set", preventing
+	-- neovim's `highlight default` from applying built-in colors.
+	local syntax_groups = {
+		"Added", "Boolean", "Changed", "Character", "Comment", "Conditional",
+		"Constant", "Debug", "Define", "Delimiter", "Error", "Exception",
+		"Float", "Function", "Identifier", "Ignore", "Include", "Keyword",
+		"Label", "Macro", "Number", "Operator", "PreCondit", "PreProc",
+		"Removed", "Repeat", "Special", "SpecialChar", "SpecialComment",
+		"Statement", "StorageClass", "String", "Structure", "Tag", "Todo",
+		"Type", "Typedef", "Underlined",
+	}
+	for _, group in ipairs(syntax_groups) do
+		if not highlights[group] then
+			highlights[group] = {}
+		end
+	end
+
+	-- Clear treesitter (@) and LSP semantic token (@lsp) groups
+	for name, _ in pairs(vim.api.nvim_get_hl(0, {})) do
+		if name:match("^@") and not highlights[name] then
+			highlights[name] = {}
+		end
 	end
 
 	-- Apply user highlight overrides
