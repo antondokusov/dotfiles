@@ -1,0 +1,15 @@
+os:
+  edit: 'nvim'
+git:
+  commitPrefixes:
+    mobile-app-bare:
+      - pattern: "(\\w+-\\w+).*"
+        replace: '$1 '
+  pagers:
+    - # pager: delta --light --paging=never
+      externalDiffCommand: difft --color=always --syntax-highlight=off
+customCommands:
+  - key: '<c-b>'
+    context: 'localBranches'
+    command: 'scripts/run_bitrise_build.sh -b {{.SelectedLocalBranch.Name}} -s'
+    loadingText: 'Building selected branch...'

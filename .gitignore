@@ -2,3 +2,4 @@
 *.bak
 *.bak.*
 secrets.nu
+state.yml
