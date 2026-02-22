@@ -79,7 +79,136 @@ web_client {
 // Choose the theme that is specified in the themes section.
 // Default: default
 // 
-theme "pencil-light"
+themes {
+    theme1 {
+        frame_unselected {
+            base 176 176 176
+            background 240 240 240
+            emphasis_0 176 176 176
+            emphasis_1 176 176 176
+            emphasis_2 176 176 176
+            emphasis_3 176 176 176
+        }
+        frame_selected {
+            base 32 32 32
+            background 240 240 240
+            emphasis_0 32 32 32
+            emphasis_1 32 32 32
+            emphasis_2 32 32 32
+            emphasis_3 32 32 32
+        }
+        frame_highlight {
+            base 32 32 32
+            background 240 240 240
+            emphasis_0 81 130 164
+            emphasis_1 81 130 164
+            emphasis_2 81 130 164
+            emphasis_3 81 130 164
+        }
+        ribbon_unselected {
+            base 176 176 176
+            background 240 240 240
+            emphasis_0 176 176 176
+            emphasis_1 176 176 176
+            emphasis_2 176 176 176
+            emphasis_3 176 176 176
+        }
+        ribbon_selected {
+            base 32 32 32
+            background 240 240 240
+            emphasis_0 32 32 32
+            emphasis_1 32 32 32
+            emphasis_2 32 32 32
+            emphasis_3 32 32 32
+        }
+        text_unselected {
+            base 136 136 136
+            background 250 250 250
+            emphasis_0 136 136 136
+            emphasis_1 136 136 136
+            emphasis_2 136 136 136
+            emphasis_3 136 136 136
+        }
+        text_selected {
+            base 32 32 32
+            background 250 250 250
+            emphasis_0 32 32 32
+            emphasis_1 32 32 32
+            emphasis_2 32 32 32
+            emphasis_3 32 32 32
+        }
+        table_title {
+            base 136 136 136
+            background 250 250 250
+            emphasis_0 136 136 136
+            emphasis_1 136 136 136
+            emphasis_2 136 136 136
+            emphasis_3 136 136 136
+        }
+        table_cell_unselected {
+            base 176 176 176
+            background 250 250 250
+            emphasis_0 176 176 176
+            emphasis_1 176 176 176
+            emphasis_2 176 176 176
+            emphasis_3 176 176 176
+        }
+        table_cell_selected {
+            base 32 32 32
+            background 240 240 240
+            emphasis_0 32 32 32
+            emphasis_1 32 32 32
+            emphasis_2 32 32 32
+            emphasis_3 32 32 32
+        }
+        list_unselected {
+            base 176 176 176
+            background 250 250 250
+            emphasis_0 176 176 176
+            emphasis_1 176 176 176
+            emphasis_2 176 176 176
+            emphasis_3 176 176 176
+        }
+        list_selected {
+            base 32 32 32
+            background 240 240 240
+            emphasis_0 32 32 32
+            emphasis_1 32 32 32
+            emphasis_2 32 32 32
+            emphasis_3 32 32 32
+        }
+        exit_code_success {
+            base 90 158 111
+            background 250 250 250
+            emphasis_0 90 158 111
+            emphasis_1 90 158 111
+            emphasis_2 90 158 111
+            emphasis_3 90 158 111
+        }
+        exit_code_error {
+            base 196 97 108
+            background 250 250 250
+            emphasis_0 196 97 108
+            emphasis_1 196 97 108
+            emphasis_2 196 97 108
+            emphasis_3 196 97 108
+        }
+        multiplayer_user_colors {
+            player_1 32 32 32
+            player_2 136 136 136
+            player_3 81 130 164
+            player_4 196 154 60
+            player_5 196 97 108
+            player_6 90 158 111
+            player_7 176 176 176
+            player_8 136 136 136
+            player_9 32 32 32
+            player_10 81 130 164
+        }
+    }
+}
+
+theme "theme1"
  
 // Choose the base input mode of zellij.
 // Default: normal
