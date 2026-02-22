@@ -44,3 +44,30 @@ keymap('n', '<leader>t', dart_test.runDartTestUnderCursor, opts)
 keymap('n', '<leader>tt', dart_test.runDartTestFile, opts)
 
 keymap('n', '<leader>f', television.find, opts)
+
+local session_keys = require('util.session-keys')
+
+session_keys.sessions.dap = {
+  n = {
+    { lhs = 'n', rhs = function() require('dap').step_over() end, opts = { desc = 'Step over' } },
+    { lhs = 'i', rhs = function() require('dap').step_into() end, opts = { desc = 'Step into' } },
+    { lhs = 'o', rhs = function() require('dap').step_out() end, opts = { desc = 'Step out' } },
+    { lhs = 's', rhs = function() require('dap').continue() end, opts = { desc = 'Continue' } },
+    { lhs = 'R', rhs = function() require('dap').session():request('hotRestart') end, opts = { desc = 'Hot restart' } },
+    { lhs = 'r', rhs = function() require('dap').session():request('hotReload') end, opts = { desc = 'Hot reload' } },
+    { lhs = 'b', rhs = function() require('dap').toggle_breakpoint() end, opts = { desc = 'Toggle breakpoint' } },
+    { lhs = 'w', rhs = function() require('dap-view').add_expr() end, opts = { desc = 'Add watch expr' } },
+    { lhs = '.', rhs = function() require('dap-view').navigate({ count = 1, wrap = true }) end, opts = { desc = 'Next view' } },
+    { lhs = ',', rhs = function() require('dap-view').navigate({ count = -1, wrap = true }) end, opts = { desc = 'Prev view' } },
+    { lhs = 'd', rhs = function() require('util.flutter_util').select_flutter_device() end, opts = { desc = 'Select device' } },
+    { lhs = 'q', rhs = function()
+      require('util.session-keys'):stop('dap')
+      require('dap-view').close()
+    end, opts = { desc = 'Quit DAP mode' } },
+  },
+}
+
+keymap('n', '<leader>d', function()
+  require('util.session-keys'):start('dap')
+  require('dap-view').open()
+end, opts)
