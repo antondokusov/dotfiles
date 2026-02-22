@@ -25,6 +25,36 @@ def anatest [] {
   osascript -e 'display notification "Analysis complete"'
 }
 
+$env.PROMPT_COMMAND = {|| $"(ansi { fg: '#888888' })(pwd | path basename)(ansi reset)" }
+$env.PROMPT_INDICATOR = {|| $"(ansi { fg: '#888888' }) > (ansi reset)" }
+$env.PROMPT_COMMAND_RIGHT = {|| $"(ansi { fg: '#888888' })(date now | format date '%H:%M:%S')(ansi reset)" }
+
+$env.config.color_config = {
+    shape_block: { fg: '#202020' }
+    shape_bool: { fg: '#202020' }
+    shape_custom: { fg: '#202020' }
+    shape_external: { fg: '#202020' }
+    shape_externalarg: { fg: '#202020' }
+    shape_filepath: { fg: '#202020' }
+    shape_flag: { fg: '#202020' }
+    shape_float: { fg: '#202020' }
+    shape_globpattern: { fg: '#202020' }
+    shape_int: { fg: '#202020' }
+    shape_internalcall: { fg: '#202020' }
+    shape_list: { fg: '#202020' }
+    shape_literal: { fg: '#202020' }
+    shape_nothing: { fg: '#202020' }
+    shape_operator: { fg: '#202020' }
+    shape_pipe: { fg: '#202020' }
+    shape_range: { fg: '#202020' }
+    shape_record: { fg: '#202020' }
+    shape_signature: { fg: '#202020' }
+    shape_string: { fg: '#202020' }
+    shape_table: { fg: '#202020' }
+    shape_variable: { fg: '#202020' }
+    shape_garbage: { fg: white bg: red attr: b }
+}
+
 $env.config.keybindings = [
   {
       name: "fuzzy file search"
