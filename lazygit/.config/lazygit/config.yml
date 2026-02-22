@@ -1,3 +1,31 @@
+gui:
+  theme:
+    activeBorderColor:
+      - '#202020'
+      - bold
+    inactiveBorderColor:
+      - '#b0b0b0'
+    searchingActiveBorderColor:
+      - '#c49a3c'
+      - bold
+    optionsTextColor:
+      - '#888888'
+    selectedLineBgColor:
+      - '#f0f0f0'
+    inactiveViewSelectedLineBgColor:
+      - '#f0f0f0'
+    cherryPickedCommitFgColor:
+      - '#5182a4'
+    cherryPickedCommitBgColor:
+      - '#f0f0f0'
+    markedBaseCommitFgColor:
+      - '#c49a3c'
+    markedBaseCommitBgColor:
+      - '#f0f0f0'
+    unstagedChangesColor:
+      - '#c4616c'
+    defaultFgColor:
+      - '#202020'
 os:
   edit: 'nvim'
 git:
