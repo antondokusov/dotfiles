@@ -52,7 +52,7 @@ session_keys.sessions.dap = {
     { lhs = 'n', rhs = function() require('dap').step_over() end, opts = { desc = 'Step over' } },
     { lhs = 'i', rhs = function() require('dap').step_into() end, opts = { desc = 'Step into' } },
     { lhs = 'o', rhs = function() require('dap').step_out() end, opts = { desc = 'Step out' } },
-    { lhs = 's', rhs = function() require('dap').continue() end, opts = { desc = 'Continue' } },
+    { lhs = 'c', rhs = function() require('dap').continue() end, opts = { desc = 'Continue' } },
     { lhs = 'R', rhs = function() require('dap').session():request('hotRestart') end, opts = { desc = 'Hot restart' } },
     { lhs = 'r', rhs = function() require('dap').session():request('hotReload') end, opts = { desc = 'Hot reload' } },
     { lhs = 'b', rhs = function() require('dap').toggle_breakpoint() end, opts = { desc = 'Toggle breakpoint' } },
