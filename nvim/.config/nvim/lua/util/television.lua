@@ -16,7 +16,7 @@ M.find = function()
     end,
   })
 
-  os.execute('zellij action new-pane -f -c -- sh -c "tv files --no-preview --no-status-bar >> ' .. result_pipe .. '"')
+  os.execute('zellij action new-pane -f -c -n " " -- sh -c "tv files --no-preview --no-status-bar >> ' .. result_pipe .. '"')
 end
 
 --- Opens television in a zellij pane with a list of options and returns the selected one
@@ -61,7 +61,7 @@ M.select = function(options, callback)
     end,
   })
 
-  os.execute('zellij action new-pane -f -c -- sh -c "cat ' ..
+  os.execute('zellij action new-pane -f -c -n " " -- sh -c "cat ' ..
     input_file .. ' | tv --no-preview --no-status-bar >> ' .. result_pipe .. '"')
 end
 
