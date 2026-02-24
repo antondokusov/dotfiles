@@ -16,7 +16,7 @@ local dart = {
         name = 'Development (' .. device .. ')',
         program = 'lib/main_development.dart',
         cwd = '${workspaceFolder}',
-        toolArgs = { '--flavor', 'development', '-d', device, '--dart-define-from-file=api_keys.json' },
+        toolArgs = { '--flavor', 'development', '-d', device },
       },
       {
         type = 'dart',
@@ -24,7 +24,7 @@ local dart = {
         name = 'Production (' .. device .. ')',
         program = 'lib/main_production.dart',
         cwd = '${workspaceFolder}',
-        toolArgs = { '--flavor', 'production', '-d', device, '--dart-define-from-file=api_keys.json' },
+        toolArgs = { '--flavor', 'production', '-d', device },
       },
       {
         type = 'dart',
@@ -32,7 +32,7 @@ local dart = {
         name = 'Development Release (' .. device .. ')',
         program = 'lib/main_development.dart',
         cwd = '${workspaceFolder}',
-        toolArgs = { '--flavor', 'development', '-d', device, '--dart-define-from-file=api_keys.json', '--release' },
+        toolArgs = { '--flavor', 'development', '-d', device, '--release' },
       },
       {
         type = 'dart',
@@ -40,7 +40,7 @@ local dart = {
         name = 'Production Release (' .. device .. ')',
         program = 'lib/main_production.dart',
         cwd = '${workspaceFolder}',
-        toolArgs = { '--flavor', 'production', '-d', device, '--dart-define-from-file=api_keys.json', '--release' },
+        toolArgs = { '--flavor', 'production', '-d', device, '--release' },
       },
     }
   end,
