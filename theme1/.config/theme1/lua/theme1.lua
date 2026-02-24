@@ -49,6 +49,9 @@ local function set_highlights()
 		WinSeparator = { fg = p.muted },
 		WinBar = { fg = p.subtle, bg = p.surface },
 		WinBarNC = { fg = p.muted, bg = p.surface },
+		TabLine = { fg = p.muted, bg = p.surface },
+		TabLineSel = { fg = p.text, bg = p.muted, blend = 30, bold = true },
+		TabLineFill = { bg = p.surface },
 
 		-- Misc UI
 		Folded = { fg = p.muted, bg = p.surface },
