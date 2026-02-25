@@ -47,11 +47,11 @@ local function set_highlights()
 		StatusLine = { fg = p.subtle, bg = p.surface },
 		StatusLineNC = { fg = p.muted, bg = p.surface },
 		WinSeparator = { fg = p.muted },
-		WinBar = { fg = p.subtle, bg = p.surface },
-		WinBarNC = { fg = p.muted, bg = p.surface },
-		TabLine = { fg = p.muted, bg = p.surface },
-		TabLineSel = { fg = p.text, bg = p.muted, blend = 30, bold = true },
-		TabLineFill = { bg = p.surface },
+		WinBar = { fg = p.subtle },
+		WinBarNC = { fg = p.muted },
+		TabLine = { fg = p.muted },
+		TabLineSel = { fg = p.text, bold = true },
+		TabLineFill = {},
 
 		-- Misc UI
 		Folded = { fg = p.muted, bg = p.surface },

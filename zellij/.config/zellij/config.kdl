@@ -54,7 +54,9 @@ plugins {
     session-manager location="zellij:session-manager"
     status-bar location="zellij:status-bar"
     strider location="zellij:strider"
-    tab-bar location="zellij:tab-bar"
+    tab-bar location="zellij:tab-bar" {
+        hide_swap_layout_indication "true"
+    }
     welcome-screen location="zellij:session-manager" {
         welcome_screen true
     }
@@ -107,7 +109,7 @@ themes {
         }
         ribbon_unselected {
             base 176 176 176
-            background 240 240 240
+            background 250 250 250
             emphasis_0 176 176 176
             emphasis_1 176 176 176
             emphasis_2 176 176 176
@@ -115,7 +117,7 @@ themes {
         }
         ribbon_selected {
             base 32 32 32
-            background 240 240 240
+            background 250 250 250
             emphasis_0 32 32 32
             emphasis_1 32 32 32
             emphasis_2 32 32 32
