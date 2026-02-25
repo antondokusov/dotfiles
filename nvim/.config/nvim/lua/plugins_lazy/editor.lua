@@ -83,8 +83,8 @@ return {
         signs = {
           add = { text = '▎' },
           change = { text = '▎' },
-          delete = { text = '' },
-          topdelete = { text = '' },
+          delete = { text = '' },
+          topdelete = { text = '' },
           changedelete = { text = '▎' },
         },
       }
@@ -96,34 +96,6 @@ return {
       vim.keymap.set('n', '<leader>gr', gitsigns.reset_hunk)
       vim.keymap.set('n', '<leader>gR', gitsigns.reset_buffer)
     end,
-  },
-
-  {
-    'nvim-lualine/lualine.nvim',
-    -- enabled = false,
-    opts = {
-      options = {
-        disabled_filetypes = { 'NvimTree' },
-        component_separators = '|',
-        section_separators = { left = '', right = '' },
-      },
-      tabline = {},
-      sections = {
-        lualine_a = {
-          { 'mode', separator = { left = '  ', right = '' } },
-        },
-        lualine_b = {
-          'branch',
-          { 'diagnostics', sources = { 'nvim_workspace_diagnostic' } },
-        },
-        lualine_c = { { 'filename', path = 1 } },
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = {
-          { 'location', separator = { left = '', right = '  ' } },
-        },
-      },
-    },
   },
 
   {

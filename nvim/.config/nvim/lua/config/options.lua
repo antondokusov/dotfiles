@@ -46,7 +46,7 @@ vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 8
 vim.opt.shortmess:append 'c'
 vim.opt.laststatus = 3
--- vim.opt.statusline = "%#Normal#  %#StatusLine#%f %m%r%h%w %=%-14.(%l,%c%V%)%=%P%#Normal#"
+require('config.statusline')
 vim.opt.smoothscroll = true -- todo
 vim.opt.listchars = list {
   'tab: ──',
