@@ -91,10 +91,6 @@ return {
 
       vim.keymap.set('n', '}', gitsigns.next_hunk)
       vim.keymap.set('n', '{', gitsigns.prev_hunk)
-      vim.keymap.set('n', '<leader>gl', gitsigns.toggle_current_line_blame)
-      vim.keymap.set('n', '<leader>gp', gitsigns.preview_hunk)
-      vim.keymap.set('n', '<leader>gr', gitsigns.reset_hunk)
-      vim.keymap.set('n', '<leader>gR', gitsigns.reset_buffer)
     end,
   },
 
@@ -137,6 +133,40 @@ return {
     'sindrets/diffview.nvim',
     dependencies = {
       'nvim-tree/nvim-web-devicons',
+    },
+    keys = {
+      { '<leader>g', '<cmd>DiffviewOpen<cr>', desc = 'Diffview open' },
+    },
+    opts = {
+      hooks = {
+        diff_buf_read = function(bufnr)
+          local name = vim.api.nvim_buf_get_name(bufnr)
+          local gitdir, relpath = name:match('^diffview://(.+%.git)/:%d+:/(.+)$')
+          if gitdir and relpath then
+            local toplevel = gitdir:gsub('/.git$', '')
+            require('gitsigns').attach(bufnr, {
+              file = toplevel .. '/' .. relpath,
+              toplevel = toplevel,
+              gitdir = gitdir,
+            })
+          end
+        end,
+      },
+      keymaps = {
+        disable_defaults = true,
+        view = {
+          { 'n', 'q', '<cmd>DiffviewClose<cr>', { desc = 'Close diffview' } },
+          { 'n', '<tab>', '<cmd>DiffviewToggleFiles<cr>', { desc = 'Toggle files panel' } },
+          { 'n', ']', ']c', { desc = 'Next hunk' } },
+          { 'n', '[', '[c', { desc = 'Previous hunk' } },
+          { 'n', 'r', '<cmd>Gitsigns reset_hunk<cr>', { desc = 'Reset hunk' } },
+          { 'n', 'b', '<cmd>Gitsigns blame_line<cr>', { desc = 'Blame line' } },
+        },
+        file_panel = {
+          { 'n', 'q', '<cmd>DiffviewClose<cr>', { desc = 'Close diffview' } },
+          { 'n', '<tab>', '<cmd>DiffviewToggleFiles<cr>', { desc = 'Toggle files panel' } },
+        },
+      },
     },
   },
 }
