@@ -2,7 +2,7 @@ local opts = { noremap = true, silent = true }
 local keymap = vim.keymap.set
 
 local bufjump = require 'util.bufjump'
-local television = require 'util.television'
+local fzf = require 'util.fzf'
 local dart_test = require 'util.dart-test'
 
 keymap('n', 'sh', '<C-w>h', opts)
@@ -43,7 +43,9 @@ keymap('n', '<C-k>', bufjump.forward, opts)
 keymap('n', '<leader>t', dart_test.runDartTestUnderCursor, opts)
 keymap('n', '<leader>tt', dart_test.runDartTestFile, opts)
 
-keymap('n', '<leader>f', television.find, opts)
+keymap('n', '<leader>f', fzf.find, opts)
+keymap('n', '<leader>F', fzf.grep, opts)
+keymap('v', '<leader>F', fzf.grep_visual, opts)
 
 local session_keys = require('util.session-keys')
 

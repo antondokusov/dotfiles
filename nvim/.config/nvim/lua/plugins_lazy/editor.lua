@@ -39,26 +39,6 @@ return {
   },
 
   {
-    'ibhagwan/fzf-lua',
-    config = function()
-      local fzf = require 'fzf-lua'
-
-      fzf.setup {
-        winopts = {
-          preview = {
-            layout = 'vertical',
-          },
-        },
-        keymap = { fzf = { ['ctrl-a'] = 'select-all+accept' } },
-        defaults = { formatter = 'path.filename_first' },
-      }
-
-
-      vim.keymap.set('n', '<leader>F', fzf.grep)
-    end,
-  },
-
-  {
     'SmiteshP/nvim-navbuddy',
     dependencies = {
       'SmiteshP/nvim-navic',

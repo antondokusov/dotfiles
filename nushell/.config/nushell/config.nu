@@ -26,6 +26,7 @@ def anatest [] {
 }
 
 source ~/.config/nushell/theme.nu
+source ~/.config/nushell/fzf.nu
 
 $env.config.keybindings = [
   {
@@ -36,8 +37,7 @@ $env.config.keybindings = [
       event: [
         {
           send: "ExecuteHostCommand"
-          # cmd: "commandline edit --insert (ls **/* | input list --fuzzy -d name | $in.name)"
-          cmd: "commandline edit --insert (tv files)"
+          cmd: "commandline edit --insert (fzf --layout=reverse)"
         }
       ]
   },
@@ -49,7 +49,7 @@ $env.config.keybindings = [
       event: [
         {
           send: "ExecuteHostCommand"
-          cmd: "commandline edit --insert (tv nu-history)"
+          cmd: "commandline edit --insert (history | get command | uniq | str join (char newline) | fzf --layout=reverse)"
         }
       ]
   }
