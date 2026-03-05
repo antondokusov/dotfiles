@@ -19,3 +19,20 @@ require('dap-view').setup {
     default_section = "repl",
   },
 }
+
+-- dap-view ignores dap.defaults.*.exception_breakpoints and reads the
+-- adapter's filter.default instead. Use vim.schedule in configurationDone
+-- to run after all synchronous listeners (including dap-view's) have
+-- fired, then override both the state and the adapter.
+require('dap').listeners.after.configurationDone['disable-exception-defaults'] = function(session)
+  vim.schedule(function()
+    local state = require('dap-view.state')
+    local opts = state.exceptions_options[session.config.type]
+    if opts then
+      for _, opt in ipairs(opts) do
+        opt.enabled = false
+      end
+    end
+    session:set_exception_breakpoints({})
+  end)
+end

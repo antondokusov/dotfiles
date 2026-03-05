@@ -50,3 +50,5 @@ local dap = require 'dap'
 
 dap.adapters.dart = dart.adapter
 dap.providers.configs['dart'] = dart.configurations_provider
+dap.defaults.dart.exception_breakpoints = {}
+dap.defaults.fallback.exception_breakpoints = {}
