@@ -1,0 +1,13 @@
+{
+  "name": "my-plugins",
+  "owner": {
+    "name": "Anton Dokusov"
+  },
+  "plugins": [
+    {
+      "name": "dart-ls-plugin",
+      "source": "./plugins/dart-ls-plugin",
+      "description": "Adds Dart code intelligence"
+    }
+  ]
+}

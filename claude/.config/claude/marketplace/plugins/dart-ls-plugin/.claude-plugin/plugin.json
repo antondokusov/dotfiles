@@ -1,0 +1,8 @@
+{
+  "name": "dart-ls-plugin",
+  "description": "Dart Language Server Plugin",
+  "version": "1.0.0",
+  "author": {
+    "name": "Anton Dokusov"
+  }
+}
