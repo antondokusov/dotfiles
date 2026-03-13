@@ -84,7 +84,7 @@ M.grep = function(initial_query)
     on_stdout = function(_, data)
       local result = data[1]
       if result and result ~= "" then
-        local file, line = result:match("^(.+):(%d+):")
+        local file, line = result:match("^(.-):(%d+):")
         if file and line then
           vim.cmd("edit " .. vim.fn.fnameescape(file))
           vim.fn.cursor(tonumber(line), 0)
