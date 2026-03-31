@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cmd="${1:-}"
+file="${2:-}"
+
+if [ -z "$cmd" ]; then
+  echo "Usage: plan-review {review|status} [file]" >&2
+  exit 1
+fi
+
+# Default to the most recently modified plan file
+if [ -z "$file" ]; then
+  file="$(ls -t ~/.claude/plans/*.md 2>/dev/null | head -n 1)"
+  if [ -z "$file" ]; then
+    echo "No plan files found in ~/.claude/plans/" >&2
+    exit 1
+  fi
+fi
+
+case "$cmd" in
+  review)
+    abs_file="$(cd "$(dirname "$file")" && pwd)/$(basename "$file")"
+
+    if [ -z "${ZELLIJ:-}" ]; then
+      echo "Not in a Zellij session. Run manually:" >&2
+      echo "  nvim \"+lua require('util.plan-review').setup('$abs_file')\" '$abs_file'" >&2
+      exit 1
+    fi
+
+    fifo="/tmp/plan-review-$$.fifo"
+    rm -f "$fifo"
+    mkfifo "$fifo"
+    trap 'rm -f "$fifo"' EXIT
+
+    zellij action new-pane --stacked -c \
+      --name "Plan Review" \
+      -- bash -c "nvim \"+lua require('util.plan-review').setup('$abs_file')\" '$abs_file'; echo done > '$fifo'"
+
+    read < "$fifo"
+    echo "Review complete."
+    ;;
+
+  status)
+    abs_file="$(cd "$(dirname "$file")" && pwd)/$(basename "$file")"
+    hash=$(echo -n "$abs_file" | shasum -a 256 | cut -d' ' -f1)
+    json_path="$HOME/.claude/plan-reviews/${hash}.json"
+
+    if [ -f "$json_path" ]; then
+      cat "$json_path"
+    else
+      echo '{"file":"'"$abs_file"'","comments":[]}'
+    fi
+    ;;
+
+  clear)
+    abs_file="$(cd "$(dirname "$file")" && pwd)/$(basename "$file")"
+    hash=$(echo -n "$abs_file" | shasum -a 256 | cut -d' ' -f1)
+    json_path="$HOME/.claude/plan-reviews/${hash}.json"
+    rm -f "$json_path"
+    ;;
+
+  *)
+    echo "Usage: plan-review {review|status|clear} [file]" >&2
+    exit 1
+    ;;
+esac

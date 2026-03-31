@@ -1,0 +1,8 @@
+{
+  "name": "nvim-plan-review",
+  "description": "Review plans in Neovim with inline comments. Opens Neovim in a Zellij pane for review, then Claude addresses feedback.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Anton Dokusov"
+  }
+}

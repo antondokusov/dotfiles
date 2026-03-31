@@ -8,6 +8,11 @@
       "name": "dart-ls-plugin",
       "source": "./plugins/dart-ls-plugin",
       "description": "Adds Dart code intelligence"
+    },
+    {
+      "name": "nvim-plan-review",
+      "source": "./plugins/nvim-plan-review",
+      "description": "Review plans in Neovim with inline comments"
     }
   ]
 }

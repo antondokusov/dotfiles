@@ -12,6 +12,10 @@
       "rev": "8b54c59bcb23366645ae10edca6edfb9d3a0853e",
       "src": "https://github.com/b0o/incline.nvim.git"
     },
+    "markview.nvim": {
+      "rev": "eff76903ef7df28f78acf258437268ab9355e38d",
+      "src": "https://github.com/OXY2DEV/markview.nvim.git"
+    },
     "mini.files": {
       "rev": "57eb96a828f80efb8095a611e3aafcfa43548f8b",
       "src": "https://github.com/echasnovski/mini.files.git"
