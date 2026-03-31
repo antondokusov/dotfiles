@@ -7,12 +7,9 @@ return {
     outline = false,
     flutterOutline = false,
   },
-  on_attach = function(client, bufnr)
-    client.server_capabilities.semanticTokensProvider = nil
-  end,
   settings = {
     dart = {
-      lineLength = 120,
+      lineLength = 100,
       showTodos = false,
       analysisExcludedFolders = {
         vim.fn.expand '$HOME/.pub-cache',
