@@ -1,6 +1,14 @@
 # ascetic theme — monochrome, minimal
 
-$env.PROMPT_COMMAND = {|| $"(ansi { fg: '#888888' })(pwd | path basename)(ansi reset)" }
+$env.PROMPT_COMMAND = {||
+  let dir = $"(ansi { fg: '#888888' })(pwd | path basename)(ansi reset)"
+  let branch = (do { git branch --show-current } | complete | if $in.exit_code == 0 { $in.stdout | str trim } else { "" })
+  if ($branch | is-empty) {
+    $dir
+  } else {
+    $"($dir)(ansi { fg: '#888888' }) \(($branch)\)(ansi reset)"
+  }
+}
 $env.PROMPT_INDICATOR = {|| $"(ansi { fg: '#888888' }) > (ansi reset)" }
 $env.PROMPT_COMMAND_RIGHT = {|| $"(ansi { fg: '#888888' })(date now | format date '%H:%M:%S')(ansi reset)" }
 
