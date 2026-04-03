@@ -1,4 +1,4 @@
 worktree-path = "{{ repo_path }}/{{ branch | sanitize }}"
 
-[post-switch]
+[pre-switch]
 zellij = "[ -n \"$ZELLIJ\" ] && zellij action rename-tab {{ branch | sanitize }}"
