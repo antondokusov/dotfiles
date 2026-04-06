@@ -53,13 +53,13 @@ dap.providers.configs['dart'] = dart.configurations_provider
 dap.defaults.dart.exception_breakpoints = {}
 dap.defaults.fallback.exception_breakpoints = {}
 
--- Zellij tab icon: show ▶️ prefix while DAP session is active
+-- Zellij tab icon: show 🚀 prefix while DAP session is active
 local zellij_tab_icon = require('util.zellij-tab-icon')
 local zellij_dap_handle = nil
 
 dap.listeners.after.event_initialized['zellij-tab-icon'] = function()
   if zellij_dap_handle then return end
-  zellij_dap_handle = zellij_tab_icon.add('▶️ ')
+  zellij_dap_handle = zellij_tab_icon.add('🚀 ')
 end
 
 local function on_dap_end()
