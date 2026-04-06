@@ -1,0 +1,9 @@
+{
+  "name": "zellij-tab-icon",
+  "description": "Show Claude Code state (🤖 working, 💬 waiting) as icon prefixes on the zellij tab title.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Anton Dokusov"
+  },
+  "hooks": "./.claude-plugin/hooks/hooks.json"
+}

@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+# zellij-tab-icon — manage icon prefixes on zellij tab names
+#
+# Usage:
+#   zellij-tab-icon set <icon> --session-id <id>
+#   zellij-tab-icon clear --session-id <id>
+
+set -euo pipefail
+
+# Exit silently if not inside zellij
+[ -n "${ZELLIJ:-}" ] || exit 0
+
+ACTION="${1:-}"
+shift || true
+
+# Parse arguments
+ICON=""
+SESSION_ID=""
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --session-id) SESSION_ID="$2"; shift 2 ;;
+    *) ICON="$1"; shift ;;
+  esac
+done
+
+if [ -z "$SESSION_ID" ]; then
+  exit 1
+fi
+
+CACHE_FILE="/tmp/zellij-tab-icon-${SESSION_ID}"
+
+# Known Claude Code icon prefixes (only these are stripped)
+CLAUDE_ICONS="🤖 |💬 "
+
+get_tab_id() {
+  if [ -f "$CACHE_FILE" ]; then
+    cat "$CACHE_FILE"
+  else
+    local tab_id
+    tab_id=$(zellij action current-tab-info --json | nu --stdin -c '$in | from json | get tab_id')
+    echo "$tab_id" > "$CACHE_FILE"
+    echo "$tab_id"
+  fi
+}
+
+get_tab_name() {
+  local tab_id="$1"
+  zellij action list-tabs --json | nu --stdin -c "\$in | from json | where tab_id == ${tab_id} | first | get name"
+}
+
+strip_claude_icons() {
+  local name="$1"
+  # Strip known Claude icon prefixes (🤖 or 💬 followed by a space)
+  echo "$name" | sed -E "s/^(${CLAUDE_ICONS})//"
+}
+
+case "$ACTION" in
+  set)
+    if [ -z "$ICON" ]; then
+      exit 1
+    fi
+    tab_id=$(get_tab_id)
+    current_name=$(get_tab_name "$tab_id")
+    base_name=$(strip_claude_icons "$current_name")
+    zellij action rename-tab "${ICON}${base_name}" --tab-id "$tab_id"
+    ;;
+  clear)
+    if [ ! -f "$CACHE_FILE" ]; then
+      exit 0
+    fi
+    tab_id=$(cat "$CACHE_FILE")
+    current_name=$(get_tab_name "$tab_id")
+    base_name=$(strip_claude_icons "$current_name")
+    zellij action rename-tab "$base_name" --tab-id "$tab_id"
+    rm -f "$CACHE_FILE"
+    ;;
+  *)
+    echo "Usage: zellij-tab-icon {set|clear} [icon] --session-id <id>" >&2
+    exit 1
+    ;;
+esac

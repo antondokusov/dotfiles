@@ -1,0 +1,69 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/zellij-tab-icon/.claude-plugin/bin/zellij-tab-icon set '🤖 ' --session-id {} || true"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "AskUserQuestion",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/zellij-tab-icon/.claude-plugin/bin/zellij-tab-icon set '💬 ' --session-id {} || true"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/zellij-tab-icon/.claude-plugin/bin/zellij-tab-icon set '🤖 ' --session-id {} || true"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/zellij-tab-icon/.claude-plugin/bin/zellij-tab-icon set '💬 ' --session-id {} || true"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/zellij-tab-icon/.claude-plugin/bin/zellij-tab-icon set '💬 ' --session-id {} || true"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/zellij-tab-icon/.claude-plugin/bin/zellij-tab-icon clear --session-id {} || true"
+          }
+        ]
+      }
+    ]
+  }
+}
