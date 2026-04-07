@@ -1,0 +1,65 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "WebFetch",
+      "WebSearch",
+      "Bash(git *)",
+      "Bash(fvm flutter *)",
+      "Bash(fvm dart *)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(wc *)",
+      "Bash(pwd)",
+      "Bash(xcrun simctl *)",
+      "Bash(find *)",
+      "Bash(mkdir *)",
+      "Bash(sed *)",
+      "Bash(git commit:*)",
+      "Bash(xargs ls:*)",
+      "Bash(grep:*)",
+      "Bash(xargs:*)"
+    ],
+    "deny": [
+      "Bash(git push *)",
+      "Bash(git reset --hard *)",
+      "Bash(rm -rf *)"
+    ],
+    "defaultMode": "default"
+  },
+  "enabledPlugins": {
+    "swift-lsp@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true,
+    "lua-lsp@claude-plugins-official": true,
+    "dart-ls-plugin@my-plugins": true,
+    "nvim-plan-review@my-plugins": true,
+    "superpowers@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": true,
+    "worktrunk@worktrunk": true,
+    "zellij-tab-icon@my-plugins": true
+  },
+  "extraKnownMarketplaces": {
+    "my-plugins": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/antondokusov/.config/claude/marketplace"
+      },
+      "autoUpdate": true
+    },
+    "worktrunk": {
+      "source": {
+        "source": "github",
+        "repo": "max-sixty/worktrunk"
+      }
+    }
+  },
+  "voiceEnabled": true,
+  "statusLine": {
+    "type": "command",
+    "command": "~/.config/claude/statusline.sh"
+  }
+}
