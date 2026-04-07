@@ -44,7 +44,7 @@ function M.remove(handle)
       if vim.startswith(name, handle.icon) then
         name = name:sub(#handle.icon + 1)
       end
-      vim.system({ 'zellij', 'action', 'rename-tab', name, '--tab-id', tostring(handle.tab_id) })
+      vim.system({ 'zellij', 'action', 'rename-tab', name, '--tab-id', tostring(handle.tab_id) }):wait()
       return
     end
   end

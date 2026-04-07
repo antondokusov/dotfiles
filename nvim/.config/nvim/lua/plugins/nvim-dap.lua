@@ -53,6 +53,12 @@ dap.providers.configs['dart'] = dart.configurations_provider
 dap.defaults.dart.exception_breakpoints = {}
 dap.defaults.fallback.exception_breakpoints = {}
 
+dap.listeners.after['event_dart.debuggerUris']['devtools'] = function(session, body)
+  if body and body.vmServiceUri then
+    session.dart_vm_service_uri = body.vmServiceUri
+  end
+end
+
 -- Zellij tab icon: show 🚀 prefix while DAP session is active
 local zellij_tab_icon = require('util.zellij-tab-icon')
 local zellij_dap_handle = nil
@@ -63,9 +69,13 @@ dap.listeners.after.event_initialized['zellij-tab-icon'] = function()
 end
 
 local function on_dap_end()
-  if not zellij_dap_handle then return end
-  zellij_tab_icon.remove(zellij_dap_handle)
-  zellij_dap_handle = nil
+  local sessions = require('dap').sessions()
+  if next(sessions) ~= nil then return end
+  if zellij_dap_handle then
+    zellij_tab_icon.remove(zellij_dap_handle)
+    zellij_dap_handle = nil
+  end
+  require('util.devtools').stop()
 end
 
 dap.listeners.after.event_terminated['zellij-tab-icon'] = on_dap_end

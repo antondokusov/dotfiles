@@ -62,6 +62,7 @@ session_keys.sessions.dap = {
     { lhs = '.', rhs = function() require('dap-view').navigate({ count = 1, wrap = true }) end, opts = { desc = 'Next view' } },
     { lhs = ',', rhs = function() require('dap-view').navigate({ count = -1, wrap = true }) end, opts = { desc = 'Prev view' } },
     { lhs = 'd', rhs = function() require('util.flutter_util').select_flutter_device() end, opts = { desc = 'Select device' } },
+    { lhs = 'v', rhs = function() require('util.devtools').open_for_session() end, opts = { desc = 'Open DevTools' } },
     { lhs = 'q', rhs = function()
       require('util.session-keys'):stop('dap')
       require('dap-view').close()
