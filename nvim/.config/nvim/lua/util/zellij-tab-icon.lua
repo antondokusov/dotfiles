@@ -1,5 +1,9 @@
 local M = {}
 
+local function strip_icon(name, icon)
+  return (name:gsub(icon, '', 1))
+end
+
 function M.add(icon)
   if not vim.env.ZELLIJ then
     return nil
@@ -16,8 +20,9 @@ function M.add(icon)
   end
 
   local handle = { tab_id = info.tab_id, icon = icon, cleared = false }
+  local name = strip_icon(info.name, icon)
 
-  vim.system({ 'zellij', 'action', 'rename-tab', icon .. info.name, '--tab-id', tostring(info.tab_id) })
+  vim.system({ 'zellij', 'action', 'rename-tab', icon .. name, '--tab-id', tostring(info.tab_id) })
 
   return handle
 end
@@ -40,10 +45,7 @@ function M.remove(handle)
 
   for _, tab in ipairs(tabs) do
     if tab.tab_id == handle.tab_id then
-      local name = tab.name
-      if vim.startswith(name, handle.icon) then
-        name = name:sub(#handle.icon + 1)
-      end
+      local name = strip_icon(tab.name, handle.icon)
       vim.system({ 'zellij', 'action', 'rename-tab', name, '--tab-id', tostring(handle.tab_id) }):wait()
       return
     end

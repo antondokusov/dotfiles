@@ -50,8 +50,8 @@ get_tab_name() {
 
 strip_claude_icons() {
   local name="$1"
-  # Strip known Claude icon prefixes (🤖 or 💬 followed by a space)
-  echo "$name" | sed -E "s/^(${CLAUDE_ICONS})//"
+  # Strip known Claude icon prefixes from anywhere in the name
+  echo "$name" | sed -E "s/${CLAUDE_ICONS}//g"
 }
 
 case "$ACTION" in
