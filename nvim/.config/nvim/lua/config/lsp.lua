@@ -1,4 +1,4 @@
-vim.lsp.enable { 'copilot', 'lua_ls', 'typescript', 'dart_ls', 'nushell' }
+vim.lsp.enable { 'lua_ls', 'typescript', 'dart_ls', 'nushell' }
 
 vim.diagnostic.config {
   virtual_text = true,
@@ -31,10 +31,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
       return tonumber(vim.fn.pumvisible()) ~= 0
     end
 
-    if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion) then
-      vim.lsp.inline_completion.enable(true)
-    end
-
     if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_completion) then
       vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'nosort', 'popup' }
       vim.lsp.completion.enable(true, client.id, buffer, { autotrigger = false })
@@ -49,20 +45,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
 
     vim.keymap.set('i', '<C-p>', '<C-x><C-n>', { desc = 'Buffer completions' })
-
-    vim.keymap.set({ 'i', 'n' }, '<Tab>', function()
-      local nes = require 'sidekick'
-
-      if nes.nes_jump_or_apply() then
-        return ''
-      elseif vim.lsp.inline_completion.get() then
-        return ''
-      elseif pumvisible() then
-        return '<C-y>'
-      else
-        return '<Tab>'
-      end
-    end, { expr = true, silent = true })
 
     local opts = { buffer = buffer }
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)

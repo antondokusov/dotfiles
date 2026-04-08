@@ -4,7 +4,6 @@ require 'config.lsp'
 
 require 'plugins.colorscheme'
 require 'plugins.treesitter'
-require 'plugins.sidekick'
 require 'plugins.navbuddy'
 require 'plugins.autopairs'
 require 'plugins.gitsigns'

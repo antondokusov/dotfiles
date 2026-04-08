@@ -55,10 +55,6 @@
     "nvim-web-devicons": {
       "rev": "d7462543c9e366c0d196c7f67a945eaaf5d99414",
       "src": "https://github.com/nvim-tree/nvim-web-devicons.git"
-    },
-    "sidekick.nvim": {
-      "rev": "c2bdf8cfcd87a6be5f8b84322c1b5052e78e302e",
-      "src": "https://github.com/folke/sidekick.nvim.git"
     }
   }
 }
