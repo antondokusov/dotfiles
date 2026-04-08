@@ -73,6 +73,7 @@ vim.o.foldexpr = "v:lnum==1?'>1':getline(v:lnum)=~'import'?1:nvim_treesitter#fol
 vim.o.foldlevelstart = 99
 
 vim.opt.winborder = 'rounded'
+vim.opt.pumborder = 'rounded'
 
 vim.cmd 'set nomodeline'
 

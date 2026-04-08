@@ -33,15 +33,8 @@ function Statusline()
   -- Filename
   table.insert(parts, "  %#StatusLine#%f %m")
 
-  -- Right side
+  -- Right side: percentage
   table.insert(parts, "%=")
-
-  -- LSP status
-  local lsp_status = vim.lsp.status()
-  if lsp_status and lsp_status ~= "" then
-    table.insert(parts, "%#StatusLine# " .. lsp_status .. "  ")
-  end
-
   table.insert(parts, "%p%% ")
 
   return table.concat(parts)

@@ -9,7 +9,7 @@ local function set_highlights()
 	local default_highlights = {
 		-- Core
 		Normal = { fg = p.text, bg = p.bg },
-		NormalFloat = { bg = "NONE" },
+		NormalFloat = { bg = p.surface },
 		NormalNC = { fg = p.text, bg = p.bg },
 		Cursor = { fg = p.bg, bg = p.text },
 		CursorLine = { bg = p.surface },
@@ -37,7 +37,7 @@ local function set_highlights()
 		Question = { fg = p.yellow },
 
 		-- Popup menu
-		Pmenu = { fg = p.subtle, bg = p.surface },
+		Pmenu = { fg = p.subtle, bg = p.bg },
 		PmenuSel = { fg = p.text, bg = p.muted, blend = 30 },
 		PmenuSbar = { bg = p.surface },
 		PmenuThumb = { bg = p.muted },
