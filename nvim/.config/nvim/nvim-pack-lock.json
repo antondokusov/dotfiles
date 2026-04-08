@@ -44,14 +44,6 @@
       "rev": "f5eba192f39b453675d115351808bd51276d9de5",
       "src": "https://github.com/SmiteshP/nvim-navic.git"
     },
-    "nvim-treesitter": {
-      "rev": "2f5d4c3f3c675962242096bcc8e586d76dd72eb2",
-      "src": "https://github.com/nvim-treesitter/nvim-treesitter.git"
-    },
-    "nvim-treesitter-textobjects": {
-      "rev": "4e91b5d0394329a229725b021a8ea217099826ef",
-      "src": "https://github.com/nvim-treesitter/nvim-treesitter-textobjects.git"
-    },
     "nvim-web-devicons": {
       "rev": "d7462543c9e366c0d196c7f67a945eaaf5d99414",
       "src": "https://github.com/nvim-tree/nvim-web-devicons.git"
