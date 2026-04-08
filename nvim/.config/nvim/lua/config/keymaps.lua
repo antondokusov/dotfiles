@@ -37,6 +37,11 @@ keymap('x', 'K', ":move '<-2<CR>gv-gv", opts)
 
 keymap('v', 'p', '"_dP', opts)
 
+keymap('v', '=', 'an', { remap = true, desc = 'Expand selection to outer node' })
+keymap('v', '-', 'in', { remap = true, desc = 'Shrink selection to inner node' })
+
+keymap('n', '<leader>u', '<CMD>Undotree<CR>', opts)
+
 keymap('n', '<C-l>', bufjump.backward, opts)
 keymap('n', '<C-k>', bufjump.forward, opts)
 
