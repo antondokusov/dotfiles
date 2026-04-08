@@ -29,6 +29,9 @@ local function set_highlights()
 		-- Messages
 		ErrorMsg = { fg = p.red },
 		WarningMsg = { fg = p.yellow },
+		OkMsg = { fg = p.green },
+		StdoutMsg = { fg = p.subtle },
+		StderrMsg = { fg = p.red },
 		ModeMsg = { fg = p.subtle },
 		MoreMsg = { fg = p.subtle },
 		Question = { fg = p.yellow },
@@ -38,6 +41,8 @@ local function set_highlights()
 		PmenuSel = { fg = p.text, bg = p.muted, blend = 30 },
 		PmenuSbar = { bg = p.surface },
 		PmenuThumb = { bg = p.muted },
+		PmenuBorder = { link = "FloatBorder" },
+		PmenuShadow = { bg = p.muted, blend = 10 },
 
 		-- Floating windows
 		FloatBorder = { fg = p.muted, bg = "NONE" },
@@ -84,6 +89,7 @@ local function set_highlights()
 		DiffDelete = { bg = p.red, blend = 15 },
 		DiffChange = { bg = p.yellow, blend = 15 },
 		DiffText = { bg = p.yellow, blend = 30 },
+		DiffTextAdd = { bg = p.green, blend = 30 },
 		["@diff.plus"] = { bg = p.green, blend = 15 },
 		["@diff.minus"] = { bg = p.red, blend = 15 },
 		["@diff.delta"] = { bg = p.yellow, blend = 15 },
@@ -100,14 +106,6 @@ local function set_highlights()
 		GitSignsChange = { fg = p.yellow },
 		GitSignsDelete = { fg = p.red },
 
-		-- Copilot
-		CopilotSuggestion = { fg = p.muted },
-
-		-- Sidekick
-		SidekickSign = { fg = p.muted },
-		SidekickDiffContext = { bg = p.surface },
-		SidekickDiffAdd = { bg = p.green, blend = 15 },
-		SidekickDiffDelete = { bg = p.red, blend = 15 },
 	}
 
 	for group, highlight in pairs(default_highlights) do
