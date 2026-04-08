@@ -22,7 +22,7 @@ vim.opt.tabstop = 2
 
 vim.opt.backup = false
 vim.opt.writebackup = false
-vim.opt.cmdheight = 1
+vim.opt.cmdheight = 0
 vim.opt.hlsearch = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -75,3 +75,5 @@ vim.o.foldlevelstart = 99
 vim.opt.winborder = 'rounded'
 
 vim.cmd 'set nomodeline'
+
+require('vim._core.ui2').enable()
