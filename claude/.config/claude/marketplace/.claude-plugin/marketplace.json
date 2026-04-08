@@ -18,6 +18,11 @@
       "name": "zellij-tab-icon",
       "source": "./plugins/zellij-tab-icon",
       "description": "Show Claude Code state as icon prefixes on zellij tabs"
+    },
+    {
+      "name": "prompt-collector",
+      "source": "./plugins/prompt-collector",
+      "description": "Save user prompts to ~/prompts/ grouped by session"
     }
   ]
 }

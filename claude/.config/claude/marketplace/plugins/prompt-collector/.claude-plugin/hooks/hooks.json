@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | nu --stdin -c 'let input = ($in | from json); let sid = ($input | get session_id); let prompt = ($input | get prompt); let ts = (date now | format date \"%Y-%m-%d %H:%M:%S\"); let dir = ($env.HOME | path join \"prompts\"); mkdir $dir; let file = ($dir | path join $\"($sid).md\"); $\"## ($ts)\\n\\n($prompt)\\n\\n\" | save --append $file' || true"
+          }
+        ]
+      }
+    ]
+  }
+}

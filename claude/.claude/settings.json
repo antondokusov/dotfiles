@@ -31,6 +31,10 @@
     ],
     "defaultMode": "default"
   },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.config/claude/statusline.sh"
+  },
   "enabledPlugins": {
     "swift-lsp@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
@@ -40,7 +44,8 @@
     "superpowers@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": true,
     "worktrunk@worktrunk": true,
-    "zellij-tab-icon@my-plugins": true
+    "zellij-tab-icon@my-plugins": true,
+    "prompt-collector@my-plugins": true
   },
   "extraKnownMarketplaces": {
     "my-plugins": {
@@ -57,9 +62,5 @@
       }
     }
   },
-  "voiceEnabled": true,
-  "statusLine": {
-    "type": "command",
-    "command": "~/.config/claude/statusline.sh"
-  }
+  "voiceEnabled": true
 }
