@@ -1,0 +1,9 @@
+{
+  "name": "caffeinate",
+  "description": "Prevent macOS sleep while Claude Code is actively working. Uses caffeinate to block idle, display, and system sleep per session.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Anton Dokusov"
+  },
+  "hooks": "./.claude-plugin/hooks/hooks.json"
+}
