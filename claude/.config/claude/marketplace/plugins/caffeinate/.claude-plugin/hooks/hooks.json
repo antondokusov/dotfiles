@@ -1,0 +1,69 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/caffeinate/.claude-plugin/bin/caffeinate-ctl activate {} || true"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "AskUserQuestion",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/caffeinate/.claude-plugin/bin/caffeinate-ctl deactivate {} || true"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/caffeinate/.claude-plugin/bin/caffeinate-ctl activate {} || true"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/caffeinate/.claude-plugin/bin/caffeinate-ctl deactivate {} || true"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/caffeinate/.claude-plugin/bin/caffeinate-ctl deactivate {} || true"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/caffeinate/.claude-plugin/bin/caffeinate-ctl deactivate {} || true"
+          }
+        ]
+      }
+    ]
+  }
+}
