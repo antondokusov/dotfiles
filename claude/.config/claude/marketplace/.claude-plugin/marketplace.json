@@ -23,6 +23,11 @@
       "name": "prompt-collector",
       "source": "./plugins/prompt-collector",
       "description": "Save user prompts to ~/prompts/ grouped by session"
+    },
+    {
+      "name": "caffeinate",
+      "source": "./plugins/caffeinate",
+      "description": "Prevent macOS sleep while Claude Code is actively working"
     }
   ]
 }

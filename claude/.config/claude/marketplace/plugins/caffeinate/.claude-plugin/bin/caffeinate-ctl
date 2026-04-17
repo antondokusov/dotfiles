@@ -12,11 +12,11 @@ activate() {
         return 0
     fi
 
-    # Start caffeinate in background
+    # Start caffeinate in background, detached from hook shell
     # -d: prevent display sleep
     # -i: prevent idle sleep
     # -s: prevent system sleep (AC power only)
-    caffeinate -dis &
+    nohup caffeinate -dis &>/dev/null &
     echo $! > "$PID_FILE"
 }
 
