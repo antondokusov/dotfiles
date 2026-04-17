@@ -54,6 +54,39 @@
         ]
       }
     ],
+    "StopFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/zellij-tab-icon/.claude-plugin/bin/zellij-tab-icon set '💬 ' --session-id {} || true"
+          }
+        ]
+      }
+    ],
+    "PermissionDenied": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/zellij-tab-icon/.claude-plugin/bin/zellij-tab-icon set '💬 ' --session-id {} || true"
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/zellij-tab-icon/.claude-plugin/bin/zellij-tab-icon set '💬 ' --session-id {} || true"
+          }
+        ]
+      }
+    ],
     "SessionEnd": [
       {
         "matcher": "",
