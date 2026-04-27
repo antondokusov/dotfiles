@@ -1,0 +1,15 @@
+layout {
+    pane split_direction="vertical" {
+        pane size=18 borderless=true {
+            plugin location="https://github.com/cfal/zellij-vertical-tabs/releases/download/v0.1.0/zellij-vertical-tabs.wasm" {
+                format          "#[fg=#888888]{index}:{name} {indicators}"
+                format_active   "#[fg=#202020,bold]{index}:{name} {indicators}"
+                indicator_active     ""
+                indicator_fullscreen "Z"
+                indicator_sync       "S"
+                max_name_length 14
+            }
+        }
+        pane
+    }
+}
