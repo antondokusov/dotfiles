@@ -23,7 +23,13 @@ M.find = function()
     end,
   })
 
-  zellij_run("fzf " .. fzf_opts .. " --delimiter=/ --nth=-1 --tiebreak=pathname >> " .. result_pipe)
+  local sep = "\1"
+  local source = "fd --type f --hidden --strip-cwd-prefix --exclude .git"
+  local format = "awk -F/ 'BEGIN{OFS=\"\\1\"} {print $NF, \"\\033[2m • \" $0 \"\\033[0m\", $0}'"
+  local fzf_cmd = "fzf " .. fzf_opts
+    .. " --ansi --delimiter='" .. sep .. "' --with-nth=1,2 --nth=1 --accept-nth=3"
+    .. " --tiebreak=pathname"
+  zellij_run(source .. " | " .. format .. " | " .. fzf_cmd .. " >> " .. result_pipe)
 end
 
 --- Opens fzf in a zellij pane with a list of options and returns the selected one
