@@ -23,7 +23,7 @@ M.find = function()
     end,
   })
 
-  zellij_run("fzf " .. fzf_opts .. " >> " .. result_pipe)
+  zellij_run("fzf " .. fzf_opts .. " --delimiter=/ --nth=-1 --tiebreak=pathname >> " .. result_pipe)
 end
 
 --- Opens fzf in a zellij pane with a list of options and returns the selected one
