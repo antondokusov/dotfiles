@@ -53,6 +53,20 @@ dap.providers.configs['dart'] = dart.configurations_provider
 dap.defaults.dart.exception_breakpoints = {}
 dap.defaults.fallback.exception_breakpoints = {}
 
+local dap_logs = require 'util.dap-logs'
+
+dap.defaults.dart.on_output = dap_logs.on_output
+
+dap.listeners.after.event_initialized['dap-logs'] = dap_logs.open
+dap.listeners.after.event_terminated['dap-logs'] = dap_logs.close
+dap.listeners.after.event_exited['dap-logs'] = dap_logs.close
+
+local dap_logs_group = vim.api.nvim_create_augroup('dap-logs-cleanup', { clear = true })
+vim.api.nvim_create_autocmd('VimLeavePre', {
+  group = dap_logs_group,
+  callback = dap_logs.close_all,
+})
+
 dap.listeners.after['event_dart.debuggerUris']['devtools'] = function(session, body)
   if body and body.vmServiceUri then
     session.dart_vm_service_uri = body.vmServiceUri
