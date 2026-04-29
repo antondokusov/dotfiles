@@ -24,6 +24,10 @@ def anatest [] {
   osascript -e 'display notification "Analysis complete"'
 }
 
+def dlog [] {
+  ls ('~/.cache/nvim/dap' | path expand) | where type == file | sort-by modified | last | get name
+}
+
 source ~/.config/nushell/theme.nu
 source ~/.config/nushell/fzf.nu
 
