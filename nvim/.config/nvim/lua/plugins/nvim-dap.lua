@@ -29,6 +29,22 @@ local dart = {
       {
         type = 'dart',
         request = 'launch',
+        name = 'Development Profile (' .. device .. ')',
+        program = 'lib/main_development.dart',
+        cwd = '${workspaceFolder}',
+        toolArgs = { '--flavor', 'development', '-d', device, '--profile' },
+      },
+      {
+        type = 'dart',
+        request = 'launch',
+        name = 'Production Profile (' .. device .. ')',
+        program = 'lib/main_production.dart',
+        cwd = '${workspaceFolder}',
+        toolArgs = { '--flavor', 'production', '-d', device, '--profile' },
+      },
+      {
+        type = 'dart',
+        request = 'launch',
         name = 'Development Release (' .. device .. ')',
         program = 'lib/main_development.dart',
         cwd = '${workspaceFolder}',
