@@ -1,6 +1,7 @@
 #!/bin/bash
 input=$(cat)
 
+ctx_pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
 five_pct=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty')
 five_reset=$(echo "$input" | jq -r '.rate_limits.five_hour.resets_at // empty')
 week_pct=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty')
@@ -44,6 +45,11 @@ if [ -n "$week_pct" ]; then
       fi
     fi
   fi
+fi
+
+if [ -n "$ctx_pct" ]; then
+  [ -n "$out" ] && out="$out  "
+  out="${out}ctx: $(printf '%.0f' "$ctx_pct")%"
 fi
 
 echo "$out"
