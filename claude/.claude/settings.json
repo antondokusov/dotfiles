@@ -29,24 +29,11 @@
       "Bash(git reset --hard *)",
       "Bash(rm -rf *)"
     ],
-    "defaultMode": "default"
+    "defaultMode": "auto"
   },
   "statusLine": {
     "type": "command",
     "command": "~/.config/claude/statusline.sh"
-  },
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash|WebFetch",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/force-github-mcp.sh"
-          }
-        ]
-      }
-    ]
   },
   "enabledPlugins": {
     "swift-lsp@claude-plugins-official": true,
@@ -58,7 +45,9 @@
     "pyright-lsp@claude-plugins-official": true,
     "worktrunk@worktrunk": true,
     "zellij-tab-icon@my-plugins": true,
-    "prompt-collector@my-plugins": true
+    "prompt-collector@my-plugins": true,
+    "caffeinate@my-plugins": true,
+    "typescript-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "my-plugins": {
@@ -75,5 +64,11 @@
       }
     }
   },
+  "effortLevel": "max",
+  "advisorModel": "opus",
+  "autoUpdatesChannel": "stable",
+  "theme": "light",
+  "preferredNotifChannel": "notifications_disabled",
+  "skipAutoPermissionPrompt": true,
   "voiceEnabled": true
 }
