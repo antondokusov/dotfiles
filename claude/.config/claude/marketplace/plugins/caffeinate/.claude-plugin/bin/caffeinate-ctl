@@ -1,8 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
-ACTION="${1:?Usage: caffeinate-ctl activate|deactivate <session_id>}"
-SESSION_ID="${2:?Usage: caffeinate-ctl activate|deactivate <session_id>}"
+ACTION="${1:?Usage: caffeinate-ctl activate|deactivate|stop <session_id> [has_background]}"
+SESSION_ID="${2:?Usage: caffeinate-ctl activate|deactivate|stop <session_id> [has_background]}"
+HAS_BACKGROUND="${3:-false}"
 
 PID_FILE="/tmp/claude-caffeinate-${SESSION_ID}.pid"
 
@@ -30,5 +31,14 @@ deactivate() {
 case "$ACTION" in
     activate)   activate ;;
     deactivate) deactivate ;;
+    stop)
+        # Stop / StopFailure. Keep awake while background work (background Bash /
+        # background subagents) is still running; otherwise the turn is done.
+        if [ "$HAS_BACKGROUND" = "true" ]; then
+            activate
+        else
+            deactivate
+        fi
+        ;;
     *)          echo "Unknown action: $ACTION" >&2; exit 1 ;;
 esac

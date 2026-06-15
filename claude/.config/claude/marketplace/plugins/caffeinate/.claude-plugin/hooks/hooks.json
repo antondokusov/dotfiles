@@ -32,29 +32,18 @@
         ]
       }
     ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/caffeinate/.claude-plugin/bin/caffeinate-ctl activate {} || true"
+          }
+        ]
+      }
+    ],
     "PermissionRequest": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/caffeinate/.claude-plugin/bin/caffeinate-ctl deactivate {} || true"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/caffeinate/.claude-plugin/bin/caffeinate-ctl deactivate {} || true"
-          }
-        ]
-      }
-    ],
-    "StopFailure": [
       {
         "matcher": "",
         "hooks": [
@@ -71,18 +60,29 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/caffeinate/.claude-plugin/bin/caffeinate-ctl deactivate {} || true"
+            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/caffeinate/.claude-plugin/bin/caffeinate-ctl activate {} || true"
           }
         ]
       }
     ],
-    "PostToolUseFailure": [
+    "Stop": [
       {
         "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/caffeinate/.claude-plugin/bin/caffeinate-ctl deactivate {} || true"
+            "command": "cat | nu --stdin -c 'let j = ($in | from json); [$j.session_id (($j.background_tasks? | default [] | length) > 0 | into string)] | str join (char space)' | xargs $HOME/.config/claude/marketplace/plugins/caffeinate/.claude-plugin/bin/caffeinate-ctl stop || true"
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | nu --stdin -c 'let j = ($in | from json); [$j.session_id (($j.background_tasks? | default [] | length) > 0 | into string)] | str join (char space)' | xargs $HOME/.config/claude/marketplace/plugins/caffeinate/.claude-plugin/bin/caffeinate-ctl stop || true"
           }
         ]
       }

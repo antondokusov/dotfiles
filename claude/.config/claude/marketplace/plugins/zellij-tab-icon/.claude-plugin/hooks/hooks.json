@@ -32,29 +32,18 @@
         ]
       }
     ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/zellij-tab-icon/.claude-plugin/bin/zellij-tab-icon set '🤖 ' --session-id {} || true"
+          }
+        ]
+      }
+    ],
     "PermissionRequest": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/zellij-tab-icon/.claude-plugin/bin/zellij-tab-icon set '💬 ' --session-id {} || true"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/zellij-tab-icon/.claude-plugin/bin/zellij-tab-icon set '💬 ' --session-id {} || true"
-          }
-        ]
-      }
-    ],
-    "StopFailure": [
       {
         "matcher": "",
         "hooks": [
@@ -71,18 +60,29 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/zellij-tab-icon/.claude-plugin/bin/zellij-tab-icon set '💬 ' --session-id {} || true"
+            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/zellij-tab-icon/.claude-plugin/bin/zellij-tab-icon set '🤖 ' --session-id {} || true"
           }
         ]
       }
     ],
-    "PostToolUseFailure": [
+    "Stop": [
       {
         "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "cat | nu --stdin -c '$in | from json | get session_id' | xargs -I{} $HOME/.config/claude/marketplace/plugins/zellij-tab-icon/.claude-plugin/bin/zellij-tab-icon set '💬 ' --session-id {} || true"
+            "command": "cat | nu --stdin -c 'let j = ($in | from json); [(($j.background_tasks? | default [] | length) > 0 | into string) \"--session-id\" $j.session_id] | str join (char space)' | xargs $HOME/.config/claude/marketplace/plugins/zellij-tab-icon/.claude-plugin/bin/zellij-tab-icon stop || true"
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cat | nu --stdin -c 'let j = ($in | from json); [(($j.background_tasks? | default [] | length) > 0 | into string) \"--session-id\" $j.session_id] | str join (char space)' | xargs $HOME/.config/claude/marketplace/plugins/zellij-tab-icon/.claude-plugin/bin/zellij-tab-icon stop || true"
           }
         ]
       }
