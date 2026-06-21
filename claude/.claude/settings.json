@@ -1,4 +1,7 @@
 {
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
   "permissions": {
     "allow": [
       "Read",
@@ -31,6 +34,7 @@
     ],
     "defaultMode": "auto"
   },
+  "model": "opus[1m]",
   "statusLine": {
     "type": "command",
     "command": "~/.config/claude/statusline.sh"
@@ -41,7 +45,7 @@
     "lua-lsp@claude-plugins-official": true,
     "dart-ls-plugin@my-plugins": true,
     "nvim-plan-review@my-plugins": true,
-    "superpowers@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": false,
     "pyright-lsp@claude-plugins-official": true,
     "worktrunk@worktrunk": true,
     "zellij-tab-icon@my-plugins": true,
@@ -64,7 +68,7 @@
       }
     }
   },
-  "effortLevel": "max",
+  "effortLevel": "xhigh",
   "advisorModel": "opus",
   "autoUpdatesChannel": "stable",
   "theme": "light",
