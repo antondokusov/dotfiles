@@ -1,0 +1,146 @@
+#!/usr/bin/env bash
+# Manage Codex state icon prefixes on zellij tab names.
+
+set -euo pipefail
+
+[ -n "${ZELLIJ:-}" ] || exit 0
+
+ACTION="${1:-}"
+shift || true
+
+ARG=""
+SESSION_ID=""
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --session-id)
+      SESSION_ID="${2:-}"
+      shift 2
+      ;;
+    *)
+      ARG="$1"
+      shift
+      ;;
+  esac
+done
+
+if [ -z "$SESSION_ID" ]; then
+  exit 1
+fi
+
+SAFE_SESSION_ID="$(printf '%s' "$SESSION_ID" | tr -c 'A-Za-z0-9_.-' '_')"
+WORKING_ICON="🤖 "
+WAITING_ICON="💬 "
+CACHE_FILE="/tmp/zellij-codex-tab-icon-${SAFE_SESSION_ID}"
+
+get_tab_id() {
+  if [ -f "$CACHE_FILE" ]; then
+    cat "$CACHE_FILE"
+    return 0
+  fi
+
+  local info tab_id
+  info="$(zellij action current-tab-info --json 2>/dev/null)" || exit 0
+  tab_id="$(printf '%s' "$info" | python3 -c '
+import json
+import sys
+
+try:
+    data = json.load(sys.stdin)
+except Exception:
+    data = {}
+print(data.get("tab_id") or data.get("tabId") or "")
+')"
+
+  [ -n "$tab_id" ] || exit 0
+  echo "$tab_id" > "$CACHE_FILE"
+  echo "$tab_id"
+}
+
+get_current_tab_id() {
+  local info
+  info="$(zellij action current-tab-info --json 2>/dev/null)" || return 0
+  printf '%s' "$info" | python3 -c '
+import json
+import sys
+
+try:
+    data = json.load(sys.stdin)
+except Exception:
+    data = {}
+print(data.get("tab_id") or data.get("tabId") or "")
+'
+}
+
+get_tab_name() {
+  local tab_id="$1"
+  local tabs
+  tabs="$(zellij action list-tabs --json 2>/dev/null)" || return 0
+  printf '%s' "$tabs" | python3 -c "
+import json
+import sys
+
+try:
+    tabs = json.load(sys.stdin)
+except Exception:
+    tabs = []
+for tab in tabs:
+    if str(tab.get('tab_id') or tab.get('tabId')) == '$tab_id':
+        print(tab.get('name') or '')
+        break
+"
+}
+
+strip_codex_icons() {
+  local name="$1"
+  name="${name//$WORKING_ICON/}"
+  name="${name//$WAITING_ICON/}"
+  printf '%s\n' "$name"
+}
+
+apply_icon() {
+  local icon="$1"
+  local tab_id current_name base_name
+  tab_id="$(get_tab_id)"
+  [ -n "$tab_id" ] || return 0
+  current_name="$(get_tab_name "$tab_id")"
+  [ -n "$current_name" ] || return 0
+  base_name="$(strip_codex_icons "$current_name")"
+  zellij action rename-tab "${icon}${base_name}" --tab-id "$tab_id" >/dev/null 2>&1 || true
+}
+
+clear_icon() {
+  local tab_id current_name base_name
+  if [ -f "$CACHE_FILE" ]; then
+    tab_id="$(cat "$CACHE_FILE")"
+  else
+    tab_id="$(get_current_tab_id)"
+  fi
+
+  [ -n "$tab_id" ] || return 0
+  current_name="$(get_tab_name "$tab_id")"
+  [ -n "$current_name" ] || return 0
+  base_name="$(strip_codex_icons "$current_name")"
+  zellij action rename-tab "$base_name" --tab-id "$tab_id" >/dev/null 2>&1 || true
+  rm -f "$CACHE_FILE"
+}
+
+case "$ACTION" in
+  set)
+    [ -n "$ARG" ] || exit 1
+    apply_icon "$ARG"
+    ;;
+  stop)
+    if [ "$ARG" = "true" ]; then
+      apply_icon "$WORKING_ICON"
+    else
+      apply_icon "$WAITING_ICON"
+    fi
+    ;;
+  clear)
+    clear_icon
+    ;;
+  *)
+    echo "Usage: zellij-codex-tab-icon {set|stop|clear} [arg] --session-id <id>" >&2
+    exit 1
+    ;;
+esac

@@ -1,0 +1,124 @@
+#!/usr/bin/env bash
+# Update local session affordances for Codex lifecycle hooks.
+
+set -euo pipefail
+
+ACTION="${1:-}"
+if [ -z "$ACTION" ]; then
+  echo "Usage: codex-agent-state {working|waiting|stop|clear}" >&2
+  exit 1
+fi
+
+HOOK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PAYLOAD="$(cat || true)"
+
+PARSED="$(
+  printf '%s' "$PAYLOAD" | python3 -c '
+import hashlib
+import json
+import os
+import sys
+
+raw = sys.stdin.read()
+
+try:
+    data = json.loads(raw) if raw.strip() else {}
+except Exception:
+    data = {}
+
+def find_key(value, names, depth=0):
+    if depth > 6:
+        return None
+    if isinstance(value, dict):
+        for name in names:
+            candidate = value.get(name)
+            if isinstance(candidate, (str, int)):
+                text = str(candidate)
+                if text:
+                    return text
+        for child in value.values():
+            found = find_key(child, names, depth + 1)
+            if found:
+                return found
+    elif isinstance(value, list):
+        for child in value:
+            found = find_key(child, names, depth + 1)
+            if found:
+                return found
+    return None
+
+def find_background(value, depth=0):
+    if depth > 6:
+        return False
+    if isinstance(value, dict):
+        for name in (
+            "background_tasks",
+            "backgroundTasks",
+            "background_terminals",
+            "backgroundTerminals",
+        ):
+            candidate = value.get(name)
+            if isinstance(candidate, bool):
+                return candidate
+            if isinstance(candidate, (list, dict)):
+                return len(candidate) > 0
+        for name in ("has_background", "hasBackground", "has_background_tasks", "hasBackgroundTasks"):
+            candidate = value.get(name)
+            if isinstance(candidate, bool):
+                return candidate
+        return any(find_background(child, depth + 1) for child in value.values())
+    if isinstance(value, list):
+        return any(find_background(child, depth + 1) for child in value)
+    return False
+
+session_id = (
+    os.environ.get("CODEX_SESSION_ID")
+    or os.environ.get("CODEX_THREAD_ID")
+    or find_key(
+        data,
+        (
+            "session_id",
+            "sessionId",
+            "thread_id",
+            "threadId",
+            "conversation_id",
+            "conversationId",
+            "id",
+        ),
+    )
+)
+
+if not session_id:
+    basis = os.environ.get("ZELLIJ_PANE_ID") or os.environ.get("PWD") or raw or "codex"
+    session_id = "codex-" + hashlib.sha1(basis.encode("utf-8", "ignore")).hexdigest()[:16]
+
+print(session_id)
+print("true" if find_background(data) else "false")
+'
+)"
+
+SESSION_ID="$(printf '%s\n' "$PARSED" | sed -n '1p')"
+HAS_BACKGROUND="$(printf '%s\n' "$PARSED" | sed -n '2p')"
+
+case "$ACTION" in
+  working)
+    "$HOOK_DIR/codex-awake" activate "$SESSION_ID" || true
+    "$HOOK_DIR/zellij-codex-tab-icon" set '🤖 ' --session-id "$SESSION_ID" || true
+    ;;
+  waiting)
+    "$HOOK_DIR/codex-awake" deactivate "$SESSION_ID" || true
+    "$HOOK_DIR/zellij-codex-tab-icon" set '💬 ' --session-id "$SESSION_ID" || true
+    ;;
+  stop)
+    "$HOOK_DIR/codex-awake" stop "$SESSION_ID" "$HAS_BACKGROUND" || true
+    "$HOOK_DIR/zellij-codex-tab-icon" stop "$HAS_BACKGROUND" --session-id "$SESSION_ID" || true
+    ;;
+  clear)
+    "$HOOK_DIR/codex-awake" deactivate "$SESSION_ID" || true
+    "$HOOK_DIR/zellij-codex-tab-icon" clear --session-id "$SESSION_ID" || true
+    ;;
+  *)
+    echo "Unknown action: $ACTION" >&2
+    exit 1
+    ;;
+esac

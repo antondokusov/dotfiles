@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+# Keep macOS awake while a Codex session is actively working.
+
+set -euo pipefail
+
+ACTION="${1:?Usage: codex-awake activate|deactivate|stop <session_id> [has_background]}"
+SESSION_ID="${2:?Usage: codex-awake activate|deactivate|stop <session_id> [has_background]}"
+HAS_BACKGROUND="${3:-false}"
+
+SAFE_SESSION_ID="$(printf '%s' "$SESSION_ID" | tr -c 'A-Za-z0-9_.-' '_')"
+PID_FILE="/tmp/codex-caffeinate-${SAFE_SESSION_ID}.pid"
+LOCK_DIR="/tmp/codex-caffeinate-${SAFE_SESSION_ID}.lock"
+
+lock() {
+  local attempt
+  for attempt in $(seq 1 100); do
+    if mkdir "$LOCK_DIR" 2>/dev/null; then
+      trap 'rmdir "$LOCK_DIR" 2>/dev/null || true' EXIT
+      return 0
+    fi
+    sleep 0.05
+  done
+
+  # Another hook is already handling this session. Avoid spawning duplicates.
+  exit 0
+}
+
+is_pid_alive() {
+  local pid="${1:-}"
+  [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null
+}
+
+read_caffeinate_pid() {
+  if [ -f "$PID_FILE" ]; then
+    sed -n '1p' "$PID_FILE"
+  fi
+  return 0
+}
+
+activate() {
+  if ! command -v caffeinate >/dev/null 2>&1; then
+    exit 0
+  fi
+
+  local caffeinate_pid
+  caffeinate_pid="$(read_caffeinate_pid)"
+
+  if is_pid_alive "$caffeinate_pid"; then
+    return 0
+  fi
+
+  deactivate
+
+  # Refresh on each Codex activity event. A timeout avoids indefinite leaks if
+  # Codex exits before Stop hooks run.
+  nohup caffeinate -dis -t 3600 >/dev/null 2>&1 &
+  caffeinate_pid=$!
+
+  printf '%s\n' "$caffeinate_pid" > "$PID_FILE"
+}
+
+deactivate() {
+  if [ -f "$PID_FILE" ]; then
+    local caffeinate_pid
+    caffeinate_pid="$(read_caffeinate_pid)"
+    [ -n "${caffeinate_pid:-}" ] && kill "$caffeinate_pid" 2>/dev/null || true
+
+    rm -f "$PID_FILE"
+  fi
+}
+
+lock
+
+case "$ACTION" in
+  activate)
+    activate
+    ;;
+  deactivate)
+    deactivate
+    ;;
+  stop)
+    if [ "$HAS_BACKGROUND" = "true" ]; then
+      activate
+    else
+      deactivate
+    fi
+    ;;
+  *)
+    echo "Unknown action: $ACTION" >&2
+    exit 1
+    ;;
+esac

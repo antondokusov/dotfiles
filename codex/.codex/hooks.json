@@ -1,0 +1,81 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.codex/hooks/codex-agent-state clear",
+            "timeout": 5,
+            "statusMessage": "Clearing Codex tab state"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.codex/hooks/codex-agent-state working",
+            "timeout": 5,
+            "statusMessage": "Marking Codex active"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "request_user_input|AskUserQuestion",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.codex/hooks/codex-agent-state waiting",
+            "timeout": 5,
+            "statusMessage": "Marking Codex waiting"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.codex/hooks/codex-agent-state waiting",
+            "timeout": 5,
+            "statusMessage": "Marking Codex waiting"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.codex/hooks/codex-agent-state working",
+            "timeout": 5,
+            "statusMessage": "Marking Codex active"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.codex/hooks/codex-agent-state stop",
+            "timeout": 5,
+            "statusMessage": "Marking Codex idle"
+          }
+        ]
+      }
+    ]
+  }
+}
