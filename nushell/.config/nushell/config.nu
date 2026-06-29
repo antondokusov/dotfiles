@@ -30,6 +30,7 @@ def dlog [] {
 
 source ~/.config/nushell/theme.nu
 source ~/.config/nushell/fzf.nu
+source ~/.config/nushell/worktrunk.nu  # worktrunk `wt` integration (manual; wt's auto-install self-deletes via the Library->.config symlink)
 
 $env.config.keybindings = [
   {
