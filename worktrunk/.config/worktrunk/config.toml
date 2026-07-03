@@ -1,1 +1,6 @@
-worktree-path = "{{ repo_path }}/{{ branch | sanitize }}"
+# For a bare-repo layout (`<project>/.git`) worktrunk's `repo_path` points at the
+# bare dir itself; strip a *trailing* `/.git` so worktrees land as siblings under
+# `<project>/`. Ordinary (non-bare) repos have no such suffix and keep the nested
+# `<repo>/<branch>` layout unchanged. The strip is end-anchored (slice, not
+# replace), so a `.git`-prefixed ancestor dir like `.github/` is never rewritten.
+worktree-path = '{% if repo_path[-5:] == "/.git" %}{{ repo_path[:-5] }}{% else %}{{ repo_path }}{% endif %}/{{ branch | sanitize }}'
