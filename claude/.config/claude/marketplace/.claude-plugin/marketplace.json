@@ -5,6 +5,11 @@
   },
   "plugins": [
     {
+      "name": "codex-advisor",
+      "source": "./plugins/codex-advisor",
+      "description": "Local second-opinion advisor powered by Codex (headless), no Anthropic rate limits"
+    },
+    {
       "name": "dart-ls-plugin",
       "source": "./plugins/dart-ls-plugin",
       "description": "Adds Dart code intelligence"

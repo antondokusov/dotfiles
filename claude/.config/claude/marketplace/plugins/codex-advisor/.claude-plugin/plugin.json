@@ -1,0 +1,8 @@
+{
+  "name": "codex-advisor",
+  "description": "A local second-opinion advisor powered by Codex (headless). Reads the current session transcript and asks Codex for a skeptical senior-engineer review, with no Anthropic rate limits.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Anton Dokusov"
+  }
+}
