@@ -20,19 +20,9 @@
       "description": "Review plans in Neovim with inline comments"
     },
     {
-      "name": "zellij-tab-icon",
-      "source": "./plugins/zellij-tab-icon",
-      "description": "Show Claude Code state as icon prefixes on zellij tabs"
-    },
-    {
       "name": "prompt-collector",
       "source": "./plugins/prompt-collector",
       "description": "Save user prompts to ~/prompts/ grouped by session"
-    },
-    {
-      "name": "caffeinate",
-      "source": "./plugins/caffeinate",
-      "description": "Prevent macOS sleep while Claude Code is actively working"
     }
   ]
 }

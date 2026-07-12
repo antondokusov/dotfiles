@@ -48,10 +48,9 @@
     "superpowers@claude-plugins-official": false,
     "pyright-lsp@claude-plugins-official": true,
     "worktrunk@worktrunk": true,
-    "zellij-tab-icon@my-plugins": true,
     "prompt-collector@my-plugins": true,
-    "caffeinate@my-plugins": true,
-    "typescript-lsp@claude-plugins-official": true
+    "typescript-lsp@claude-plugins-official": true,
+    "codex-advisor@my-plugins": true
   },
   "extraKnownMarketplaces": {
     "my-plugins": {
@@ -71,6 +70,8 @@
   "effortLevel": "xhigh",
   "advisorModel": "opus",
   "autoUpdatesChannel": "stable",
+  "tui": "fullscreen",
+  "skipWorkflowUsageWarning": true,
   "theme": "light",
   "preferredNotifChannel": "notifications_disabled",
   "skipAutoPermissionPrompt": true,
