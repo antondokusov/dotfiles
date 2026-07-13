@@ -1,5 +1,5 @@
 .DS_Store
 *.bak
 *.bak.*
-secrets.nu
+secrets.zsh
 state.yml

@@ -1,6 +1,7 @@
 {
   "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "CLAUDE_CODE_SHELL": "/bin/zsh"
   },
   "permissions": {
     "allow": [
@@ -48,7 +49,6 @@
     "superpowers@claude-plugins-official": false,
     "pyright-lsp@claude-plugins-official": true,
     "worktrunk@worktrunk": true,
-    "prompt-collector@my-plugins": true,
     "typescript-lsp@claude-plugins-official": true,
     "codex-advisor@my-plugins": true
   },

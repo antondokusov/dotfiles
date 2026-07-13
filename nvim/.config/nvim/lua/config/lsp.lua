@@ -1,4 +1,4 @@
-vim.lsp.enable { 'lua_ls', 'typescript', 'dart_ls', 'nushell' }
+vim.lsp.enable { 'lua_ls', 'typescript', 'dart_ls' }
 
 vim.diagnostic.config {
   virtual_text = true,

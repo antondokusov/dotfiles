@@ -18,11 +18,6 @@
       "name": "nvim-plan-review",
       "source": "./plugins/nvim-plan-review",
       "description": "Review plans in Neovim with inline comments"
-    },
-    {
-      "name": "prompt-collector",
-      "source": "./plugins/prompt-collector",
-      "description": "Save user prompts to ~/prompts/ grouped by session"
     }
   ]
 }
