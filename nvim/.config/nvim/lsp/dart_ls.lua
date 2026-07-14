@@ -1,5 +1,5 @@
 return {
-  cmd = { 'fvm', 'dart', 'language-server', '--protocol=lsp', '--port=8123' },
+  cmd = { 'dart', 'language-server', '--protocol=lsp', '--port=8123' },
   filetypes = { 'dart' },
   root_markers = { 'pubspec.yaml', '.git' },
   init_options = {
@@ -13,7 +13,6 @@ return {
       showTodos = false,
       analysisExcludedFolders = {
         vim.fn.expand '$HOME/.pub-cache',
-        vim.fn.expand '$HOME/fvm/',
       },
     },
   },

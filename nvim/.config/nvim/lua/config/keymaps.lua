@@ -3,7 +3,6 @@ local keymap = vim.keymap.set
 
 local bufjump = require 'util.bufjump'
 local fzf = require 'util.fzf'
-local dart_test = require 'util.dart-test'
 
 keymap('n', 'sh', '<C-w>h', opts)
 keymap('n', 'sj', '<C-w>j', opts)
@@ -44,9 +43,6 @@ keymap('n', '<leader>u', '<CMD>Undotree<CR>', opts)
 
 keymap('n', '<C-l>', bufjump.backward, opts)
 keymap('n', '<C-k>', bufjump.forward, opts)
-
-keymap('n', '<leader>t', dart_test.runDartTestUnderCursor, opts)
-keymap('n', '<leader>tt', dart_test.runDartTestFile, opts)
 
 keymap('n', '<leader>f', fzf.find, opts)
 keymap('n', '<leader>F', fzf.grep, opts)

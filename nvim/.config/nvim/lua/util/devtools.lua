@@ -24,7 +24,7 @@ function M.ensure_server(callback)
 
   local buffer = ''
 
-  job_id = vim.fn.jobstart({ 'fvm', 'dart', 'devtools', '--machine', '--no-launch-browser' }, {
+  job_id = vim.fn.jobstart({ 'dart', 'devtools', '--machine', '--no-launch-browser' }, {
     on_stdout = function(_, data)
       for _, line in ipairs(data) do
         if line == '' then goto continue end

@@ -1,6 +1,6 @@
 local M = {}
 
-M.current_flutter_device = 'GM1900'
+M.current_flutter_device = vim.env.FLUTTER_DEVICE
 
 function M.start_daemon_and_poll_devices()
   local daemon = require 'util.flutter_daemon'

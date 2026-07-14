@@ -1,71 +1,27 @@
 vim.pack.add({ 'https://github.com/mfussenegger/nvim-dap.git' })
 
 -- https://github.com/flutter/flutter/blob/master/packages/flutter_tools/lib/src/debug_adapters/README.md#launchattach-arguments
+local flutter = require 'util.flutter_util'
+
 local dart = {
-  adapter = {
-    type = 'executable',
-    command = 'fvm',
-    args = { 'flutter', 'debug_adapter' },
-  },
-  configurations_provider = function()
-    local device = require('util.flutter_util').current_flutter_device
-    return {
-      {
-        type = 'dart',
-        request = 'launch',
-        name = 'Development (' .. device .. ')',
-        program = 'lib/main_development.dart',
-        cwd = '${workspaceFolder}',
-        toolArgs = { '--flavor', 'development', '-d', device },
-      },
-      {
-        type = 'dart',
-        request = 'launch',
-        name = 'Production (' .. device .. ')',
-        program = 'lib/main_production.dart',
-        cwd = '${workspaceFolder}',
-        toolArgs = { '--flavor', 'production', '-d', device },
-      },
-      {
-        type = 'dart',
-        request = 'launch',
-        name = 'Development Profile (' .. device .. ')',
-        program = 'lib/main_development.dart',
-        cwd = '${workspaceFolder}',
-        toolArgs = { '--flavor', 'development', '-d', device, '--profile' },
-      },
-      {
-        type = 'dart',
-        request = 'launch',
-        name = 'Production Profile (' .. device .. ')',
-        program = 'lib/main_production.dart',
-        cwd = '${workspaceFolder}',
-        toolArgs = { '--flavor', 'production', '-d', device, '--profile' },
-      },
-      {
-        type = 'dart',
-        request = 'launch',
-        name = 'Development Release (' .. device .. ')',
-        program = 'lib/main_development.dart',
-        cwd = '${workspaceFolder}',
-        toolArgs = { '--flavor', 'development', '-d', device, '--release' },
-      },
-      {
-        type = 'dart',
-        request = 'launch',
-        name = 'Production Release (' .. device .. ')',
-        program = 'lib/main_production.dart',
-        cwd = '${workspaceFolder}',
-        toolArgs = { '--flavor', 'production', '-d', device, '--release' },
-      },
-    }
+  type = 'executable',
+  command = 'flutter',
+  args = { 'debug_adapter' },
+  enrich_config = function(configuration, on_config)
+    local device = flutter.current_flutter_device
+    if device and device ~= '' then
+      configuration = vim.deepcopy(configuration)
+      configuration.toolArgs = configuration.toolArgs or {}
+      vim.list_extend(configuration.toolArgs, { '-d', device })
+    end
+    on_config(configuration)
   end,
 }
 
 local dap = require 'dap'
 
-dap.adapters.dart = dart.adapter
-dap.providers.configs['dart'] = dart.configurations_provider
+dap.adapters.dart = dart
+
 dap.defaults.dart.exception_breakpoints = {}
 dap.defaults.fallback.exception_breakpoints = {}
 
