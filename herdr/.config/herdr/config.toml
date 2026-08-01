@@ -1,0 +1,57 @@
+# herdr configuration
+# ~/.config/herdr/config.toml
+
+[ui]
+agent_panel_sort = "spaces"
+
+[ui.sidebar.agents]
+# Default rows, but the agent line is drawn dim by default, which lands around
+# 1.7:1 on the row fill. Pin it to theme1 subtle and switch dim off.
+rows = [
+  ["state_icon", "workspace", { token = "tab", fg = "#888888", dim = false }],
+  [{ token = "agent", fg = "#888888", dim = false }],
+]
+
+[keys]
+# Direct Option chords, no prefix. Requires `macos_option_as_alt yes` in
+# kitty.conf (already set) so Option sends Alt rather than composing a character.
+# Prefix stays at its default ctrl+b and still reaches everything not listed
+# here: prefix+v split, prefix+z zoom, prefix+s settings, prefix+? help.
+new_tab = "alt+t"
+close_tab = "alt+w"
+previous_tab = "alt+h"
+next_tab = "alt+l"
+rename_tab = "alt+r"
+
+new_workspace = "alt+n"
+previous_workspace = "alt+k"
+next_workspace = "alt+j"
+rename_workspace = "alt+shift+r"
+
+toggle_sidebar = "alt+b"
+
+[theme]
+# Light base so any token herdr doesn't take from [theme.custom] stays light.
+name = "catppuccin-latte"
+
+# theme1 palette (see dotfiles/theme1/.config/theme1/lua/theme1/palette.lua)
+#   bg #fafafa  surface #f0f0f0  muted #b0b0b0  subtle #888888  text #202020
+#   red #c4616c  green #5a9e6f  yellow #c49a3c  blue #5182a4
+# mauve/teal come from the kitty theme1 mapping (color5 / color6).
+[theme.custom]
+panel_bg    = "#fafafa"  # bg
+surface0    = "#f0f0f0"  # surface
+surface1    = "#e4e4e4"  # derived: one step past surface, for selected rows
+surface_dim = "#f5f5f5"  # derived: between bg and surface, for dimmed panels
+overlay0    = "#b0b0b0"  # muted
+overlay1    = "#888888"  # subtle
+text        = "#202020"  # text
+subtext0    = "#888888"  # subtle
+accent      = "#b0b0b0"  # muted: active tab fill, borders, nav highlights
+red         = "#c4616c"
+green       = "#5a9e6f"
+yellow      = "#c49a3c"
+blue        = "#5182a4"
+mauve       = "#9a7bb5"  # kitty color5
+teal        = "#5a9a9a"  # kitty color6
+peach       = "#c49a3c"  # theme1 has no orange; reuse yellow
