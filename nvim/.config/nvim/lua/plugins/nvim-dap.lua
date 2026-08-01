@@ -45,30 +45,18 @@ dap.listeners.after['event_dart.debuggerUris']['devtools'] = function(session, b
   end
 end
 
--- Zellij tab icon: show 🚀 prefix while DAP session is active
-local zellij_tab_icon = require('util.zellij-tab-icon')
-local zellij_dap_handle = nil
-
-dap.listeners.after.event_initialized['zellij-tab-icon'] = function()
-  if zellij_dap_handle then return end
-  zellij_dap_handle = zellij_tab_icon.add('🚀 ')
-end
-
+-- Stop the DevTools server once the last session ends
 local function on_dap_end()
   local sessions = require('dap').sessions()
   if next(sessions) ~= nil then return end
-  if zellij_dap_handle then
-    zellij_tab_icon.remove(zellij_dap_handle)
-    zellij_dap_handle = nil
-  end
   require('util.devtools').stop()
 end
 
-dap.listeners.after.event_terminated['zellij-tab-icon'] = on_dap_end
-dap.listeners.after.event_exited['zellij-tab-icon'] = on_dap_end
+dap.listeners.after.event_terminated['devtools'] = on_dap_end
+dap.listeners.after.event_exited['devtools'] = on_dap_end
 
-local group = vim.api.nvim_create_augroup('zellij-dap-tab-icon', { clear = true })
+local devtools_group = vim.api.nvim_create_augroup('dap-devtools-cleanup', { clear = true })
 vim.api.nvim_create_autocmd('VimLeavePre', {
-  group = group,
+  group = devtools_group,
   callback = on_dap_end,
 })

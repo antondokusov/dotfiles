@@ -51,7 +51,7 @@ function M.open(session)
   session._log_file = f
   session._log_closed = false
   active[session] = session
-  M._spawn_pane(session)
+  M._open_split(session)
 end
 
 -- Replacement for nvim-dap's default Session:event_output behavior.
@@ -73,7 +73,7 @@ function M.close(session)
     pcall(function() f:close() end)
     session._log_file = nil
   end
-  M._kill_pane(session)
+  M._close_split(session)
 end
 
 -- Close every session that open() registered. Used from VimLeavePre, where
@@ -84,40 +84,43 @@ function M.close_all()
   end
 end
 
--- Spawn a Zellij pane that tails the session log file.
--- No-op when not running inside Zellij. Uses tspin if available.
--- Sets session._log_pane_spawned to true on successful dispatch.
-function M._spawn_pane(session)
-  if not vim.env.ZELLIJ or vim.env.ZELLIJ == '' then
-    vim.notify('DAP logs: ' .. session._log_path .. ' (no Zellij — pane skipped)', vim.log.levels.INFO)
-    return
-  end
+-- Open a full-width horizontal split below that tails the session log file.
+-- Does not take focus — reach it with the usual window motions. Uses tspin if available.
+function M._open_split(session)
   local has_tspin = vim.fn.executable('tspin') == 1
+  local path = vim.fn.shellescape(session._log_path)
   local pipeline = has_tspin
-    and string.format("exec tail -F '%s' | tspin", session._log_path)
-    or string.format("exec tail -F '%s'", session._log_path)
-  local pane_name = 'DAP: ' .. M._slug(session)
-  vim.system({ 'zellij', 'action', 'new-pane', '--name', pane_name, '--', 'bash', '-c', pipeline },
-    { text = true },
-    function(out)
-      if out.code ~= 0 then
-        vim.schedule(function()
-          vim.notify('DAP logs: zellij new-pane failed (code ' .. out.code .. '): ' .. (out.stderr or ''), vim.log.levels.WARN)
-        end)
-      end
-    end)
-  session._log_pane_spawned = true
+    and string.format('exec tail -F %s | tspin', path)
+    or string.format('exec tail -F %s', path)
+
+  local buf = vim.api.nvim_create_buf(false, true)
+  local win = vim.api.nvim_open_win(buf, false, { split = 'below', win = -1, height = 12 })
+
+  -- win_call so the terminal attaches to this window's buffer, and picks up its
+  -- dimensions for the pty, without moving the cursor out of the source buffer.
+  session._log_job = vim.api.nvim_win_call(win, function()
+    return vim.fn.jobstart({ 'bash', '-c', pipeline }, { term = true })
+  end)
+  session._log_win = win
+  session._log_buf = buf
 end
 
--- Kill the tail process for this session's log. Uses vim.fn.system (sync,
--- doesn't depend on the libuv loop) so cleanup still runs from VimLeavePre,
--- where libuv-based vim.system would not complete before nvim exits.
--- pkill is fast; the synchronous wait is imperceptible.
--- No notification on failure (most failures just mean the process already exited).
-function M._kill_pane(session)
-  if not session._log_pane_spawned or not session._log_path then return end
-  local pattern = 'tail -F ' .. session._log_path
-  vim.fn.system({ 'pkill', '-f', pattern })
+-- Tear down this session's log split. Idempotent.
+-- The tail job is a child of nvim (jobs default to detach=false), so it also dies
+-- on its own when nvim exits — this just handles the session-ended case promptly.
+function M._close_split(session)
+  if session._log_job then
+    pcall(vim.fn.jobstop, session._log_job)
+  end
+  if session._log_win and vim.api.nvim_win_is_valid(session._log_win) then
+    pcall(vim.api.nvim_win_close, session._log_win, true)
+  end
+  if session._log_buf and vim.api.nvim_buf_is_valid(session._log_buf) then
+    pcall(vim.api.nvim_buf_delete, session._log_buf, { force = true })
+  end
+  session._log_job = nil
+  session._log_win = nil
+  session._log_buf = nil
 end
 
 return M
