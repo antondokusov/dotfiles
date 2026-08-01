@@ -1,4 +1,4 @@
-vim.lsp.enable { 'lua_ls', 'typescript', 'dart_ls' }
+vim.lsp.enable { 'lua_ls', 'dart_ls' }
 
 vim.diagnostic.config {
   virtual_text = true,
@@ -21,10 +21,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     --     callback = vim.lsp.buf.clear_references,
     --   })
     -- end
-
-    if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentSymbol) then
-      require('nvim-navbuddy').attach(client, buffer)
-    end
 
     ---Is the completion menu open?
     local function pumvisible()

@@ -5,15 +5,11 @@ require 'config.lsp'
 vim.cmd.packadd 'nvim.undotree'
 
 require 'plugins.colorscheme'
-require 'plugins.navbuddy'
 require 'plugins.autopairs'
 require 'plugins.gitsigns'
 require 'plugins.mini-files'
-require 'plugins.incline'
-require 'plugins.diffview'
 require 'plugins.nvim-dap'
 require 'plugins.nvim-dap-view'
-require 'plugins.markview'
 
 require('util.fzf').setup_ui_select()
 

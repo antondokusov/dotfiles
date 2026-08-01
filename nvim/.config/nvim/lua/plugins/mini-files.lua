@@ -1,3 +1,4 @@
+vim.pack.add({ 'https://github.com/nvim-tree/nvim-web-devicons.git' })
 vim.pack.add({ 'https://github.com/echasnovski/mini.files.git' })
 
 local ok, mini_files = pcall(require, 'mini.files')

@@ -66,11 +66,6 @@ vim.opt.fillchars = list {
 }
 
 vim.o.diffopt = 'internal,filler,closeoff,indent-heuristic,linematch:60,algorithm:histogram'
-vim.o.foldmethod = 'expr'
--- vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
-vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
-vim.o.foldexpr = "v:lnum==1?'>1':getline(v:lnum)=~'import'?1:nvim_treesitter#foldexpr()"
-vim.o.foldlevelstart = 99
 
 vim.opt.winborder = 'rounded'
 vim.opt.pumborder = 'rounded'

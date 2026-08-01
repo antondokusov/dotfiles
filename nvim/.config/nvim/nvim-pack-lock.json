@@ -1,28 +1,12 @@
 {
   "plugins": {
-    "diffview.nvim": {
-      "rev": "4516612fe98ff56ae0415a259ff6361a89419b0a",
-      "src": "https://github.com/sindrets/diffview.nvim.git"
-    },
     "gitsigns.nvim": {
       "rev": "7c4faa3540d0781a28588cafbd4dd187a28ac6e3",
       "src": "https://github.com/lewis6991/gitsigns.nvim.git"
     },
-    "incline.nvim": {
-      "rev": "8b54c59bcb23366645ae10edca6edfb9d3a0853e",
-      "src": "https://github.com/b0o/incline.nvim.git"
-    },
-    "markview.nvim": {
-      "rev": "eff76903ef7df28f78acf258437268ab9355e38d",
-      "src": "https://github.com/OXY2DEV/markview.nvim.git"
-    },
     "mini.files": {
       "rev": "57eb96a828f80efb8095a611e3aafcfa43548f8b",
       "src": "https://github.com/echasnovski/mini.files.git"
-    },
-    "nui.nvim": {
-      "rev": "de740991c12411b663994b2860f1a4fd0937c130",
-      "src": "https://github.com/MunifTanjim/nui.nvim.git"
     },
     "nvim-autopairs": {
       "rev": "59bce2eef357189c3305e25bc6dd2d138c1683f5",
@@ -35,14 +19,6 @@
     "nvim-dap-view": {
       "rev": "b1eadfadf7f161a707a3ebc100fb3989d06eaa29",
       "src": "https://github.com/igorlfs/nvim-dap-view.git"
-    },
-    "nvim-navbuddy": {
-      "rev": "a34786c77a528519f6b8a142db7609f6e387842d",
-      "src": "https://github.com/SmiteshP/nvim-navbuddy.git"
-    },
-    "nvim-navic": {
-      "rev": "f5eba192f39b453675d115351808bd51276d9de5",
-      "src": "https://github.com/SmiteshP/nvim-navic.git"
     },
     "nvim-web-devicons": {
       "rev": "d7462543c9e366c0d196c7f67a945eaaf5d99414",
