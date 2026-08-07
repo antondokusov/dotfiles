@@ -13,7 +13,6 @@ path=(
   "$ANDROID_HOME/emulator"
   "$ANDROID_HOME/platform-tools"
   "$ANDROID_HOME/cmdline-tools/latest/bin"
-  "$HOME/fvm/default/bin"
   "$HOME/.pub-cache/bin"
   /opt/homebrew/bin
   $path
