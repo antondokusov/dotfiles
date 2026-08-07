@@ -1,3 +1,4 @@
+onboarding = false
 # herdr configuration
 # ~/.config/herdr/config.toml
 
@@ -13,10 +14,10 @@ rows = [
 ]
 
 [keys]
+prefix = "f12"
+
 # Direct Option chords, no prefix. Requires `macos_option_as_alt yes` in
 # kitty.conf (already set) so Option sends Alt rather than composing a character.
-# Prefix stays at its default ctrl+b and still reaches everything not listed
-# here: prefix+v split, prefix+z zoom, prefix+s settings, prefix+? help.
 new_tab = "alt+t"
 close_tab = "alt+w"
 previous_tab = "alt+h"
