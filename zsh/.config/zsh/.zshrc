@@ -53,13 +53,6 @@ lg() {
   command lazygit
 }
 
-dlog() {
-  local -a logs
-  logs=("$HOME/.cache/nvim/dap"/*(.omN))
-  (( $#logs )) || return 1
-  print -r -- "$logs[1]"
-}
-
 autoload -Uz add-zsh-hook
 _ascetic_prompt_precmd() {
   emulate -L zsh

@@ -12,14 +12,6 @@
       "rev": "59bce2eef357189c3305e25bc6dd2d138c1683f5",
       "src": "https://github.com/windwp/nvim-autopairs.git"
     },
-    "nvim-dap": {
-      "rev": "cdfd55a133f63228c55f91378f12908cb2a78ded",
-      "src": "https://github.com/mfussenegger/nvim-dap.git"
-    },
-    "nvim-dap-view": {
-      "rev": "b1eadfadf7f161a707a3ebc100fb3989d06eaa29",
-      "src": "https://github.com/igorlfs/nvim-dap-view.git"
-    },
     "nvim-web-devicons": {
       "rev": "d7462543c9e366c0d196c7f67a945eaaf5d99414",
       "src": "https://github.com/nvim-tree/nvim-web-devicons.git"
